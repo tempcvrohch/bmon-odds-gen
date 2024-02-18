@@ -1,0 +1,26 @@
+{
+  "dockerComposeFile": ["../docker-compose.yaml", "docker-compose.yaml"],
+  "service": "workspace",
+  "workspaceFolder": "/workspace",
+  "shutdownAction": "stopCompose",
+  "customizations": {
+    "vscode": {
+      "settings": {
+        "terminal.integrated.shell.linux": "/bin/bash"
+      },
+      "extensions": [
+        "humao.rest-client",
+        "esbenp.prettier-vscode",
+        "ms-dotnettools.csdevkit"
+      ]
+    }
+  },
+  "features": {
+    "ghcr.io/devcontainers/features/docker-in-docker:2": {}
+  },
+  "postCreateCommand": {
+    "oddsgen-workspace-main-bin": "sudo chown vscode /workspace/src/Org.BmonOddsGen/bin/",
+    "oddsgen-workspace-main-openapi": "sudo chown vscode /workspace/src/Org.OpenAPITools/bin/",
+    "oddsgen-workspace-main-test": "sudo chown vscode /workspace/src/Org.BmonOddsGen.Test/bin/"
+  }
+}

@@ -1,0 +1,622 @@
+openapi: 3.0.0
+info:
+  description: The server for simulating a betting portal.
+  license:
+    name: Apache-2.0
+    url: https://www.apache.org/licenses/LICENSE-2.0.html
+  title: BetMonitor for generating matches and Odds
+  version: 1.0.0
+servers:
+- url: http://petstore.swagger.io/v2
+tags:
+- description: A registered user
+  name: user
+paths:
+  /auth/register:
+    post:
+      operationId: register
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/user-register-dto'
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserDto'
+          description: a user is logged in and was returned.
+        "400":
+          description: the username/password has invalid length.
+        "409":
+          description: username was taken
+      summary: register a new user.
+      tags:
+      - user
+      - auth
+  /auth/session:
+    get:
+      operationId: getUserSession
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserDto'
+          description: a user is logged in and was returned.
+        "401":
+          description: the user was not logged in
+        "403":
+          description: the user account has been closed
+      summary: Get current logged-in user.
+      tags:
+      - user
+      - auth
+  /user/bets/pending:
+    get:
+      operationId: getUserBetsPending
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/BetDto'
+                type: array
+          description: The list of bets that are pending.
+        "401":
+          description: The user was not logged in.
+      summary: Get user pending bets.
+      tags:
+      - user
+      - bets
+  /bet/place/{marketStateId}:
+    post:
+      operationId: placeBet
+      parameters:
+      - description: Id of the market state to place the bet on.
+        in: path
+        name: marketStateId
+        required: true
+        schema:
+          format: int64
+          type: integer
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/bet-place-dto'
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BetDto'
+          description: A bet was successfully placed and balance was substracted.
+        "400":
+          description: The bet was already placed or insufficient funds or stake out
+            of bounds or unknown market.
+      summary: Place a wager.
+      tags:
+      - bet
+  /match/{id}:
+    get:
+      operationId: getMatchById
+      parameters:
+      - description: Id of match to return.
+        in: path
+        name: id
+        required: true
+        schema:
+          format: int64
+          type: integer
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MatchDto'
+          description: the found match
+      summary: Get match on id.
+      tags:
+      - matches
+  /match/{id}/markets/latest:
+    get:
+      operationId: getLatestMarketsByMatchId
+      parameters:
+      - description: id of the match
+        in: path
+        name: id
+        required: true
+        schema:
+          format: int64
+          type: integer
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/MarketStateDto'
+                type: array
+          description: the latest markets
+      summary: Get the latest market states on match.
+      tags:
+      - matches
+      - markets
+  /matches:
+    get:
+      operationId: getMatches
+      parameters:
+      - description: Starting date inclusive.
+        in: query
+        name: from
+        schema:
+          format: date-time
+          type: string
+      - description: Ending date exclusive.
+        in: query
+        name: to
+        schema:
+          format: date-time
+          type: string
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/MatchDto'
+                type: array
+          description: a list of matches.
+      summary: Get all matches or matches between dates.
+      tags:
+      - matches
+  /matches/recent:
+    get:
+      operationId: getRecentMatches
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/MatchDto'
+                type: array
+          description: a list of recent matches.
+      summary: Get recent matches.
+      tags:
+      - matches
+  /leagues:
+    get:
+      operationId: getAllLeagues
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/league-dto'
+                type: array
+          description: a list of leagues
+      summary: Get all leagues.
+      tags:
+      - leagues
+  /players:
+    get:
+      operationId: getAllPlayers
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/PlayerDto'
+                type: array
+          description: a list of players.
+      summary: Get all players.
+      tags:
+      - players
+  /sports:
+    get:
+      operationId: getAllSports
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/SportDto'
+                type: array
+          description: A list of sports.
+      summary: Get all sports.
+      tags:
+      - sports
+components:
+  schemas:
+    LeagueDto:
+      allOf:
+      - $ref: '#/components/schemas/base-schema-id'
+      - $ref: '#/components/schemas/base-schema-dates'
+      - description: Sport listing available markets.
+        properties:
+          name:
+            type: string
+        required:
+        - name
+        type: object
+      example:
+        updated_at: 2000-01-23T04:56:07.000+00:00
+        name: name
+        created_at: 2000-01-23T04:56:07.000+00:00
+        id: 6
+    PlayerDto:
+      $ref: '#/components/schemas/player-dto'
+    SportDto:
+      $ref: '#/components/schemas/sport-dto_1'
+    MatchDto:
+      $ref: '#/components/schemas/match-dto'
+    MatchStateDto:
+      allOf:
+      - $ref: '#/components/schemas/base-schema-id'
+      - $ref: '#/components/schemas/base-schema-dates'
+      - description: "A change during a match, most likely in points."
+        properties:
+          point_score:
+            type: string
+          serving_index:
+            maximum: 1
+            minimum: 0
+            type: integer
+          set_score:
+            type: string
+          market_states:
+            items:
+              $ref: '#/components/schemas/MarketStateDto'
+            type: array
+        required:
+        - point_score
+        - serving_index
+        - set_score
+        type: object
+      example:
+        set_score: set_score
+        updated_at: 2000-01-23T04:56:07.000+00:00
+        point_score: point_score
+        created_at: 2000-01-23T04:56:07.000+00:00
+        id: 1
+        market_states:
+        - null
+        - null
+        serving_index: 0
+    MarketDto:
+      allOf:
+      - $ref: '#/components/schemas/base-schema-id'
+      - $ref: '#/components/schemas/base-schema-dates'
+      - description: Market category for a bet.
+        properties:
+          name:
+            type: string
+        required:
+        - name
+        type: object
+    MarketStateDto:
+      $ref: '#/components/schemas/market-state-dto_1'
+    BetStatusDto:
+      enum:
+      - WIN
+      - LOSS
+      - PENDING
+      - VOID
+      type: string
+    BetDto:
+      $ref: '#/components/schemas/bet-dto'
+    UserDto:
+      $ref: '#/components/schemas/user-dto'
+    user-register-dto:
+      description: A request body for a user registration
+      properties:
+        username:
+          maxLength: 32
+          minLength: 6
+          type: string
+        password:
+          maxLength: 32
+          minLength: 6
+          type: string
+      required:
+      - stake
+      type: object
+    user-dto:
+      allOf:
+      - $ref: '#/components/schemas/base-schema-id'
+      - $ref: '#/components/schemas/base-schema-dates'
+      - description: A registered user.
+        properties:
+          username:
+            maxLength: 32
+            minLength: 6
+            type: string
+          password:
+            maxLength: 32
+            minLength: 6
+            type: string
+          balance:
+            format: int64
+            type: integer
+        required:
+        - password
+        - username
+        type: object
+      example:
+        password: password
+        updated_at: 2000-01-23T04:56:07.000+00:00
+        balance: 6
+        created_at: 2000-01-23T04:56:07.000+00:00
+        id: 0
+        username: username
+    bet-dto:
+      allOf:
+      - $ref: '#/components/schemas/base-schema-id'
+      - $ref: '#/components/schemas/base-schema-dates'
+      - description: A wager placed by a user on a marketState.
+        properties:
+          stake:
+            minimum: 0
+            type: integer
+          status:
+            $ref: '#/components/schemas/BetStatusDto'
+          to_return:
+            format: float
+            type: number
+          market_state:
+            $ref: '#/components/schemas/MarketStateDto'
+        required:
+        - stake
+        - status
+        type: object
+      example:
+        stake: 0
+        updated_at: 2000-01-23T04:56:07.000+00:00
+        market_state: null
+        to_return: 1.4658129
+        created_at: 2000-01-23T04:56:07.000+00:00
+        id: 0
+        status: null
+    bet-place-dto:
+      description: A request body of a wager placed by a user on a marketState.
+      properties:
+        stake:
+          minimum: 0
+          type: integer
+      required:
+      - stake
+      type: object
+    match-dto:
+      allOf:
+      - $ref: '#/components/schemas/base-schema-id'
+      - $ref: '#/components/schemas/base-schema-dates'
+      - description: Match between players with markets.
+        properties:
+          name:
+            type: string
+          live:
+            type: boolean
+          league:
+            $ref: '#/components/schemas/LeagueDto'
+          sport:
+            $ref: '#/components/schemas/SportDto'
+          matchState:
+            $ref: '#/components/schemas/MatchStateDto'
+          matchStates:
+            items:
+              $ref: '#/components/schemas/MatchStateDto'
+            type: array
+        required:
+        - name
+        type: object
+      example:
+        matchStates:
+        - set_score: set_score
+          updated_at: 2000-01-23T04:56:07.000+00:00
+          point_score: point_score
+          created_at: 2000-01-23T04:56:07.000+00:00
+          id: 1
+          market_states:
+          - null
+          - null
+          serving_index: 0
+        - set_score: set_score
+          updated_at: 2000-01-23T04:56:07.000+00:00
+          point_score: point_score
+          created_at: 2000-01-23T04:56:07.000+00:00
+          id: 1
+          market_states:
+          - null
+          - null
+          serving_index: 0
+        updated_at: 2000-01-23T04:56:07.000+00:00
+        league:
+          updated_at: 2000-01-23T04:56:07.000+00:00
+          name: name
+          created_at: 2000-01-23T04:56:07.000+00:00
+          id: 6
+        name: name
+        matchState:
+          set_score: set_score
+          updated_at: 2000-01-23T04:56:07.000+00:00
+          point_score: point_score
+          created_at: 2000-01-23T04:56:07.000+00:00
+          id: 1
+          market_states:
+          - null
+          - null
+          serving_index: 0
+        created_at: 2000-01-23T04:56:07.000+00:00
+        id: 0
+        sport: null
+        live: true
+    market-state-dto:
+      allOf:
+      - $ref: '#/components/schemas/base-schema-id'
+      - $ref: '#/components/schemas/base-schema-dates'
+      - description: "A change in odds of a market, mostly comes in paires."
+        properties:
+          odd:
+            type: string
+          suspended:
+            type: boolean
+          stake_limit:
+            minimum: 0
+            type: integer
+        required:
+        - odd
+        - stake_limit
+        - suspended
+        type: object
+    league-dto:
+      allOf:
+      - $ref: '#/components/schemas/base-schema-id'
+      - $ref: '#/components/schemas/base-schema-dates'
+      - description: Sport listing available markets.
+        properties:
+          name:
+            type: string
+        required:
+        - name
+        type: object
+      example:
+        updated_at: 2000-01-23T04:56:07.000+00:00
+        name: name
+        created_at: 2000-01-23T04:56:07.000+00:00
+        id: 6
+    player-dto:
+      allOf:
+      - $ref: '#/components/schemas/base-schema-id'
+      - $ref: '#/components/schemas/base-schema-dates'
+      - description: Sport listing available markets.
+        properties:
+          name:
+            type: string
+          country:
+            type: string
+        required:
+        - born_on
+        - country
+        - elo
+        - name
+        type: object
+    sport-dto:
+      allOf:
+      - $ref: '#/components/schemas/base-schema-id'
+      - $ref: '#/components/schemas/base-schema-dates'
+      - description: Sport listing available markets.
+        properties:
+          name:
+            type: string
+        required:
+        - name
+        type: object
+    match-state-dto:
+      allOf:
+      - $ref: '#/components/schemas/base-schema-id'
+      - $ref: '#/components/schemas/base-schema-dates'
+      - description: "A change during a match, most likely in points."
+        properties:
+          point_score:
+            type: string
+          serving_index:
+            maximum: 1
+            minimum: 0
+            type: integer
+          set_score:
+            type: string
+          market_states:
+            items:
+              $ref: '#/components/schemas/MarketStateDto'
+            type: array
+        required:
+        - point_score
+        - serving_index
+        - set_score
+        type: object
+      example:
+        set_score: set_score
+        updated_at: 2000-01-23T04:56:07.000+00:00
+        point_score: point_score
+        created_at: 2000-01-23T04:56:07.000+00:00
+        id: 1
+        market_states:
+        - null
+        - null
+        serving_index: 0
+    market-dto:
+      allOf:
+      - $ref: '#/components/schemas/base-schema-id'
+      - $ref: '#/components/schemas/base-schema-dates'
+      - description: Market category for a bet.
+        properties:
+          name:
+            type: string
+        required:
+        - name
+        type: object
+    bet-status-dto:
+      enum:
+      - WIN
+      - LOSS
+      - PENDING
+      - VOID
+      type: string
+    base-schema-id:
+      description: Hold id primary key auto generated column.
+      properties:
+        id:
+          format: int64
+          type: integer
+      required:
+      - id
+      type: object
+    base-schema-dates:
+      description: Holds created_at and updated_at auto generated columns.
+      properties:
+        created_at:
+          format: date-time
+          type: string
+        updated_at:
+          format: date-time
+          type: string
+      type: object
+    market-state-dto_1:
+      allOf:
+      - $ref: '#/components/schemas/base-schema-id'
+      - $ref: '#/components/schemas/base-schema-dates'
+      - description: "A change in odds of a market, mostly comes in paires."
+        properties:
+          odd:
+            type: string
+          suspended:
+            type: boolean
+          stake_limit:
+            minimum: 0
+            type: integer
+        required:
+        - odd
+        - stake_limit
+        - suspended
+        type: object
+    sport-dto_1:
+      allOf:
+      - $ref: '#/components/schemas/base-schema-id'
+      - $ref: '#/components/schemas/base-schema-dates'
+      - description: Sport listing available markets.
+        properties:
+          name:
+            type: string
+        required:
+        - name
+        type: object
+

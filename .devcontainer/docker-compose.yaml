@@ -1,0 +1,42 @@
+version: "3"
+services:
+  workspace:
+    env_file:
+      - .env
+    build:
+      context: .
+      dockerfile: .devcontainer/Dockerfile
+      args:
+        VARIANT: "8.0-bookworm"
+    volumes:
+      # Mounts the project folder to '/workspace'. While this file is in .devcontainer,
+      # mounts are relative to the first file in the list, which is a level up.
+      - .:/workspace
+      - type: tmpfs
+        target: /tmp
+      - "oddsgen-workspace-main-bin:/workspace/src/Org.BmonOddsGen/bin/"
+      - "oddsgen-workspace-openapi-bin:/workspace/src/Org.OpenAPITools/bin/"
+      - "oddsgen-workspace-test-bin:/workspace/src/Org.BmonOddsGen.Test/bin/"
+      - target: /workspace/src/Org.BmonOddsGen/obj/
+        type: tmpfs
+      - target: /workspace/src/Org.OpenAPITools/obj/
+        type: tmpfs
+      - target: /workspace/src/Org.BmonOddsGen.Test/obj/
+        type: tmpfs
+
+    # Overrides default command so things don't shut down after the process ends.
+    command: /bin/sh -c "while sleep 1000; do :; done"
+    networks:
+      - main
+    external_links:
+      - postgres
+
+volumes:
+  "oddsgen-workspace-main-bin":
+  "oddsgen-workspace-openapi-bin":
+  "oddsgen-workspace-test-bin":
+
+networks:
+  main:
+    external:
+      name: bmon-odds-server_main

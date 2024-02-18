@@ -1,0 +1,7 @@
+@BmonOddsGen_HostAddress = http://localhost:{{$dotenv DOTNET_HTTP_PORTS}}
+
+GET {{BmonOddsGen_HostAddress}}/api/generate/start
+###
+
+GET {{BmonOddsGen_HostAddress}}/api/generate/stop
+###
