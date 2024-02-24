@@ -5,8 +5,21 @@ using Org.BmonOddsGen.Clients;
 using Org.BmonOddsGen.Error;
 using Org.BmonOddsGen.Core.BmonResources;
 using Org.BmonOddsGen.Core.Generate;
+using System.Diagnostics;
 // using Org.OpenAPITools.Api;
 
+if (args.Contains("--wait-for-debugger"))
+{
+	Debugger.Launch();
+
+	while (args.Contains("--wait-for-debugger") && !Debugger.IsAttached)
+	{
+		var process = Process.GetCurrentProcess();
+
+		Console.WriteLine("Process id: {0} Awaiting debugger...", process.Id);
+		Thread.Sleep(1000);
+	}
+}
 var logger = LogManager.Setup().LoadConfigurationFromAppSettings().GetCurrentClassLogger();
 
 try
@@ -31,7 +44,6 @@ try
 	builder.Services.AddSingleton<IBmonResourceStore, BmonResourceStore>();
 	builder.Services.AddSingleton<IGenerateSignaler, GenerateSignaler>();
 	builder.Services.AddSingleton<IMatchGenerator, MatchGenerator>();
-	builder.Services.AddTransient<IGenerateService, GenerateService>();
 	builder.Services.AddHostedService<BmonTimedHostedService>();
 	builder.Services.AddHostedService<GenerateBackgroundService>();
 

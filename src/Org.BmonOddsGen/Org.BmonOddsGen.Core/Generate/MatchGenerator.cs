@@ -17,30 +17,51 @@ public interface IMatchGenerator
 	void GenerateMatchesTick();
 }
 
+public class CreationStats
+{
+	public int generateTicks = 0;
+	public int storeUpdates = 0;
+	public int matchesCreated = 0;
+	public int matchesSent = 0;
+	public int matchesExcepted = 0;
+	public int matchUpdates = 0;
+	public int matchUpdatesSent = 0;
+	public int matchUpdatesExcepted = 0;
+}
+
 public class MatchGenerator : IMatchGenerator
 {
 	private readonly ILogger<MatchGenerator> _logger;
 	public readonly Dictionary<string, MatchDto> _liveMatches;
 	private readonly IBmonResourceStore _bmonResourceStore;
 	private readonly IBmonMatchApi _bmonMatchApi;
+	private readonly IOptions<EnviromentConfiguration> _env;
+	private readonly CreationStats _creationStats;
 
 	private readonly int _maxLiveGames;
 	private List<LeagueDto>? _leagues;
 	private List<PlayerDto>? _players;
 	private List<SportDto>? _sports;
+	private Dictionary<long, List<long>> _matchIdToPlayerIdsMap;
 
 	public MatchGenerator(ILogger<MatchGenerator> logger, IBmonResourceStore bmonResourceStore, IOptions<EnviromentConfiguration> env, IBmonMatchApi bmonMatchApi)
 	{
 		_logger = logger;
 		_liveMatches = new Dictionary<string, MatchDto>();
 		_bmonResourceStore = bmonResourceStore;
-		_maxLiveGames = env.Value.ODDSGEN_MAX_LIVE_GAMES ?? throw new GenerateBackgroundException("Missing .env variable ODDSGEN_MAX_LIVE_GAMES.");
+		_maxLiveGames = env.Value.ODDSGEN_MAX_LIVE_GAMES ?? 10;
 		_bmonMatchApi = bmonMatchApi;
+		_matchIdToPlayerIdsMap = new Dictionary<long, List<long>>();
+		_env = env;
+		_creationStats = new CreationStats();
 	}
 
 	public void GenerateMatchesTick()
 	{
-		_logger.LogDebug("GenerateMatchesTick");
+		_creationStats.generateTicks++;
+		if(_creationStats.generateTicks % 10 == 0){
+			_logger.LogDebug(_creationStats.ToString());
+		}
 
 		// TODO: check for new sports/leagues/players after the first load and merge them 
 		if (_sports is null)
@@ -66,8 +87,8 @@ public class MatchGenerator : IMatchGenerator
 					break;
 				}
 
-				var lIndex = random.Next(_leagues.Count);
-				var sIndex = random.Next(_sports.Count);
+				var lIndex = random.Next(0, _leagues.Count);
+				var sIndex = random.Next(0, _sports.Count);
 
 				var p1Index = random.Next(_players.Count);
 				var player1 = _players[p1Index];
@@ -79,9 +100,9 @@ public class MatchGenerator : IMatchGenerator
 
 				CreateNewMatch(_sports[sIndex], _leagues[lIndex], player1, player2);
 			}
-
-			UpdateExistingMatches();
 		}
+
+		UpdateExistingMatches();
 	}
 
 	// Returns true if the store was updated
@@ -96,17 +117,36 @@ public class MatchGenerator : IMatchGenerator
 		_leagues = new List<LeagueDto>(_bmonResourceStore._leagueList);
 		_players = new List<PlayerDto>(_bmonResourceStore._playerList);
 		_sports = new List<SportDto>(_bmonResourceStore._sportList);
+
+		_creationStats.storeUpdates++;
+
 		return true;
 	}
 
 	//TODO: turn this to async code
 	private void CreateNewMatch(SportDto sportDto, LeagueDto leagueDto, PlayerDto playerDto1, PlayerDto playerDto2)
 	{
-		MatchUpsertDtoMatchState matchStateDto = new MatchUpsertDtoMatchState("0-0", 0, "0-0");
-		var matchUpsert = new MatchUpsertDto($"{playerDto1.Firstname} {playerDto1.Lastname} v {playerDto2.Firstname} {playerDto2.Lastname}", true, leagueDto, sportDto, matchStateDto);
+		MatchUpsertDtoMatchState matchStateDto = new MatchUpsertDtoMatchState("0-0", 1, "0-0");
+		var matchName = $"{playerDto1.Firstname} {playerDto1.Lastname} v {playerDto2.Firstname} {playerDto2.Lastname}";
+		var playerIds = new List<long>() { playerDto1.Id, playerDto2.Id };
+		var matchUpsert = new MatchUpsertDto(0, matchName, true, leagueDto, sportDto, playerIds, matchStateDto);
 
-		var insertedMatch = _bmonMatchApi.CreateMatch(matchUpsert);
+		MatchDto insertedMatch;
+		_creationStats.matchesSent++;
+		try
+		{
+			insertedMatch = _bmonMatchApi.CreateMatch(matchUpsert);
+			_creationStats.matchesCreated++;
+		}
+		catch (Exception e)
+		{
+			_creationStats.matchesExcepted++;
+			return;
+		}
+
 		insertedMatch.Live = true;
+		_matchIdToPlayerIdsMap.Add(insertedMatch.Id, playerIds);
+
 		_liveMatches.Add(insertedMatch.Name, insertedMatch);
 	}
 
@@ -116,19 +156,35 @@ public class MatchGenerator : IMatchGenerator
 		foreach (var liveMatchPair in _liveMatches)
 		{
 			var liveMatch = liveMatchPair.Value;
-			var ruleset = ScoreService.GetRulesetOnSport(liveMatch.Sport.Name, liveMatch.MatchState);
-			ruleset.IncrementScore(random.Next(1));
+			var ruleset = ScoreService.GetRulesetOnSport(liveMatch.Sport.Name, liveMatch.MatchState, _env);
+			ruleset.IncrementScore(random.Next(0, 2));
 			if (ruleset.HasMatchEnded())
 			{
 				liveMatch.Live = false;
 				_liveMatches.Remove(liveMatchPair.Key);
 			}
 
+			// TODO: find the c# alternative of mapstruct
+			// TODO: also fix the sloppy playerIds, fix MatchDto and send the playerDto's
 			MatchUpsertDtoMatchState matchStateDto = new MatchUpsertDtoMatchState(liveMatch.MatchState.PointScore, liveMatch.MatchState.ServingIndex, liveMatch.MatchState.SetScore);
-			var matchUpsert = new MatchUpsertDto(liveMatch.Name, liveMatch.Live, liveMatch.League, liveMatch.Sport, matchStateDto);
+			var playerIds = _matchIdToPlayerIdsMap[liveMatch.Id];
+			if (playerIds is null)
+			{
+				throw new Exception("Missing playerIds for Match: " + liveMatch.Id);
+			}
 
-			_bmonMatchApi.UpdateMatchAndStates(liveMatch.Id, matchUpsert);
+			var matchUpsert = new MatchUpsertDto(liveMatch.Id, liveMatch.Name, liveMatch.Live, liveMatch.League, liveMatch.Sport, playerIds, matchStateDto);
+
+			_creationStats.matchUpdatesSent++;
+			try
+			{
+				_bmonMatchApi.UpdateMatchAndStates(liveMatch.Id, matchUpsert);
+				_creationStats.matchUpdates++;
+			}
+			catch (Exception e)
+			{
+				_creationStats.matchUpdatesExcepted++;
+			}
 		}
 	}
-
 }

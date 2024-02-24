@@ -73,8 +73,8 @@ namespace Org.OpenAPITools.Api
         /// <param name="id">Id of match to update.</param>
         /// <param name="matchUpsertDto"></param>
         /// <param name="operationIndex">Index associated with the operation.</param>
-        /// <returns>MatchDto</returns>
-        MatchDto UpdateMatchAndStates(long id, MatchUpsertDto matchUpsertDto, int operationIndex = 0);
+        /// <returns></returns>
+        void UpdateMatchAndStates(long id, MatchUpsertDto matchUpsertDto, int operationIndex = 0);
 
         /// <summary>
         /// Update a live match with a new matchState
@@ -86,8 +86,8 @@ namespace Org.OpenAPITools.Api
         /// <param name="id">Id of match to update.</param>
         /// <param name="matchUpsertDto"></param>
         /// <param name="operationIndex">Index associated with the operation.</param>
-        /// <returns>ApiResponse of MatchDto</returns>
-        ApiResponse<MatchDto> UpdateMatchAndStatesWithHttpInfo(long id, MatchUpsertDto matchUpsertDto, int operationIndex = 0);
+        /// <returns>ApiResponse of Object(void)</returns>
+        ApiResponse<Object> UpdateMatchAndStatesWithHttpInfo(long id, MatchUpsertDto matchUpsertDto, int operationIndex = 0);
         #endregion Synchronous Operations
     }
 
@@ -158,8 +158,8 @@ namespace Org.OpenAPITools.Api
         /// <param name="matchUpsertDto"></param>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task of MatchDto</returns>
-        System.Threading.Tasks.Task<MatchDto> UpdateMatchAndStatesAsync(long id, MatchUpsertDto matchUpsertDto, int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        /// <returns>Task of void</returns>
+        System.Threading.Tasks.Task UpdateMatchAndStatesAsync(long id, MatchUpsertDto matchUpsertDto, int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
 
         /// <summary>
         /// Update a live match with a new matchState
@@ -172,8 +172,8 @@ namespace Org.OpenAPITools.Api
         /// <param name="matchUpsertDto"></param>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task of ApiResponse (MatchDto)</returns>
-        System.Threading.Tasks.Task<ApiResponse<MatchDto>> UpdateMatchAndStatesWithHttpInfoAsync(long id, MatchUpsertDto matchUpsertDto, int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        /// <returns>Task of ApiResponse</returns>
+        System.Threading.Tasks.Task<ApiResponse<Object>> UpdateMatchAndStatesWithHttpInfoAsync(long id, MatchUpsertDto matchUpsertDto, int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
         #endregion Asynchronous Operations
     }
 
@@ -579,11 +579,10 @@ namespace Org.OpenAPITools.Api
         /// <param name="id">Id of match to update.</param>
         /// <param name="matchUpsertDto"></param>
         /// <param name="operationIndex">Index associated with the operation.</param>
-        /// <returns>MatchDto</returns>
-        public MatchDto UpdateMatchAndStates(long id, MatchUpsertDto matchUpsertDto, int operationIndex = 0)
+        /// <returns></returns>
+        public void UpdateMatchAndStates(long id, MatchUpsertDto matchUpsertDto, int operationIndex = 0)
         {
-            Org.OpenAPITools.Client.ApiResponse<MatchDto> localVarResponse = UpdateMatchAndStatesWithHttpInfo(id, matchUpsertDto);
-            return localVarResponse.Data;
+            UpdateMatchAndStatesWithHttpInfo(id, matchUpsertDto);
         }
 
         /// <summary>
@@ -593,8 +592,8 @@ namespace Org.OpenAPITools.Api
         /// <param name="id">Id of match to update.</param>
         /// <param name="matchUpsertDto"></param>
         /// <param name="operationIndex">Index associated with the operation.</param>
-        /// <returns>ApiResponse of MatchDto</returns>
-        public Org.OpenAPITools.Client.ApiResponse<MatchDto> UpdateMatchAndStatesWithHttpInfo(long id, MatchUpsertDto matchUpsertDto, int operationIndex = 0)
+        /// <returns>ApiResponse of Object(void)</returns>
+        public Org.OpenAPITools.Client.ApiResponse<Object> UpdateMatchAndStatesWithHttpInfo(long id, MatchUpsertDto matchUpsertDto, int operationIndex = 0)
         {
             // verify the required parameter 'matchUpsertDto' is set
             if (matchUpsertDto == null)
@@ -610,7 +609,6 @@ namespace Org.OpenAPITools.Api
 
             // to determine the Accept header
             string[] _accepts = new string[] {
-                "application/json"
             };
 
             var localVarContentType = Org.OpenAPITools.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
@@ -633,7 +631,7 @@ namespace Org.OpenAPITools.Api
 
 
             // make the HTTP request
-            var localVarResponse = this.Client.Put<MatchDto>("/match/{id}", localVarRequestOptions, this.Configuration);
+            var localVarResponse = this.Client.Put<Object>("/match/{id}", localVarRequestOptions, this.Configuration);
             if (this.ExceptionFactory != null)
             {
                 Exception _exception = this.ExceptionFactory("UpdateMatchAndStates", localVarResponse);
@@ -654,11 +652,10 @@ namespace Org.OpenAPITools.Api
         /// <param name="matchUpsertDto"></param>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task of MatchDto</returns>
-        public async System.Threading.Tasks.Task<MatchDto> UpdateMatchAndStatesAsync(long id, MatchUpsertDto matchUpsertDto, int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        /// <returns>Task of void</returns>
+        public async System.Threading.Tasks.Task UpdateMatchAndStatesAsync(long id, MatchUpsertDto matchUpsertDto, int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
-            Org.OpenAPITools.Client.ApiResponse<MatchDto> localVarResponse = await UpdateMatchAndStatesWithHttpInfoAsync(id, matchUpsertDto, operationIndex, cancellationToken).ConfigureAwait(false);
-            return localVarResponse.Data;
+            await UpdateMatchAndStatesWithHttpInfoAsync(id, matchUpsertDto, operationIndex, cancellationToken).ConfigureAwait(false);
         }
 
         /// <summary>
@@ -669,8 +666,8 @@ namespace Org.OpenAPITools.Api
         /// <param name="matchUpsertDto"></param>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task of ApiResponse (MatchDto)</returns>
-        public async System.Threading.Tasks.Task<Org.OpenAPITools.Client.ApiResponse<MatchDto>> UpdateMatchAndStatesWithHttpInfoAsync(long id, MatchUpsertDto matchUpsertDto, int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        /// <returns>Task of ApiResponse</returns>
+        public async System.Threading.Tasks.Task<Org.OpenAPITools.Client.ApiResponse<Object>> UpdateMatchAndStatesWithHttpInfoAsync(long id, MatchUpsertDto matchUpsertDto, int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
             // verify the required parameter 'matchUpsertDto' is set
             if (matchUpsertDto == null)
@@ -687,7 +684,6 @@ namespace Org.OpenAPITools.Api
 
             // to determine the Accept header
             string[] _accepts = new string[] {
-                "application/json"
             };
 
             var localVarContentType = Org.OpenAPITools.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
@@ -710,7 +706,7 @@ namespace Org.OpenAPITools.Api
 
 
             // make the HTTP request
-            var localVarResponse = await this.AsynchronousClient.PutAsync<MatchDto>("/match/{id}", localVarRequestOptions, this.Configuration, cancellationToken).ConfigureAwait(false);
+            var localVarResponse = await this.AsynchronousClient.PutAsync<Object>("/match/{id}", localVarRequestOptions, this.Configuration, cancellationToken).ConfigureAwait(false);
 
             if (this.ExceptionFactory != null)
             {

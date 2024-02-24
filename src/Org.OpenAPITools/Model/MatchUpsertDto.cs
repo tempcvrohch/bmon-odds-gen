@@ -39,12 +39,14 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Initializes a new instance of the <see cref="MatchUpsertDto" /> class.
         /// </summary>
+        /// <param name="id">id.</param>
         /// <param name="name">name (required).</param>
-        /// <param name="live">live.</param>
-        /// <param name="league">league.</param>
-        /// <param name="sport">sport.</param>
-        /// <param name="matchState">matchState.</param>
-        public MatchUpsertDto(string name = default(string), bool live = default(bool), LeagueDto league = default(LeagueDto), SportDto sport = default(SportDto), MatchUpsertDtoMatchState matchState = default(MatchUpsertDtoMatchState))
+        /// <param name="live">live (required).</param>
+        /// <param name="league">league (required).</param>
+        /// <param name="sport">sport (required).</param>
+        /// <param name="playerIds">playerIds (required).</param>
+        /// <param name="matchState">matchState (required).</param>
+        public MatchUpsertDto(long id = default(long), string name = default(string), bool live = default(bool), LeagueDto league = default(LeagueDto), SportDto sport = default(SportDto), List<long> playerIds = default(List<long>), MatchUpsertDtoMatchState matchState = default(MatchUpsertDtoMatchState))
         {
             // to ensure "name" is required (not null)
             if (name == null)
@@ -53,10 +55,38 @@ namespace Org.OpenAPITools.Model
             }
             this.Name = name;
             this.Live = live;
+            // to ensure "league" is required (not null)
+            if (league == null)
+            {
+                throw new ArgumentNullException("league is a required property for MatchUpsertDto and cannot be null");
+            }
             this.League = league;
+            // to ensure "sport" is required (not null)
+            if (sport == null)
+            {
+                throw new ArgumentNullException("sport is a required property for MatchUpsertDto and cannot be null");
+            }
             this.Sport = sport;
+            // to ensure "playerIds" is required (not null)
+            if (playerIds == null)
+            {
+                throw new ArgumentNullException("playerIds is a required property for MatchUpsertDto and cannot be null");
+            }
+            this.PlayerIds = playerIds;
+            // to ensure "matchState" is required (not null)
+            if (matchState == null)
+            {
+                throw new ArgumentNullException("matchState is a required property for MatchUpsertDto and cannot be null");
+            }
             this.MatchState = matchState;
+            this.Id = id;
         }
+
+        /// <summary>
+        /// Gets or Sets Id
+        /// </summary>
+        [DataMember(Name = "id", EmitDefaultValue = false)]
+        public long Id { get; set; }
 
         /// <summary>
         /// Gets or Sets Name
@@ -67,25 +97,31 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Gets or Sets Live
         /// </summary>
-        [DataMember(Name = "live", EmitDefaultValue = true)]
+        [DataMember(Name = "live", IsRequired = true, EmitDefaultValue = true)]
         public bool Live { get; set; }
 
         /// <summary>
         /// Gets or Sets League
         /// </summary>
-        [DataMember(Name = "league", EmitDefaultValue = false)]
+        [DataMember(Name = "league", IsRequired = true, EmitDefaultValue = true)]
         public LeagueDto League { get; set; }
 
         /// <summary>
         /// Gets or Sets Sport
         /// </summary>
-        [DataMember(Name = "sport", EmitDefaultValue = false)]
+        [DataMember(Name = "sport", IsRequired = true, EmitDefaultValue = true)]
         public SportDto Sport { get; set; }
+
+        /// <summary>
+        /// Gets or Sets PlayerIds
+        /// </summary>
+        [DataMember(Name = "playerIds", IsRequired = true, EmitDefaultValue = true)]
+        public List<long> PlayerIds { get; set; }
 
         /// <summary>
         /// Gets or Sets MatchState
         /// </summary>
-        [DataMember(Name = "matchState", EmitDefaultValue = false)]
+        [DataMember(Name = "matchState", IsRequired = true, EmitDefaultValue = true)]
         public MatchUpsertDtoMatchState MatchState { get; set; }
 
         /// <summary>
@@ -96,10 +132,12 @@ namespace Org.OpenAPITools.Model
         {
             StringBuilder sb = new StringBuilder();
             sb.Append("class MatchUpsertDto {\n");
+            sb.Append("  Id: ").Append(Id).Append("\n");
             sb.Append("  Name: ").Append(Name).Append("\n");
             sb.Append("  Live: ").Append(Live).Append("\n");
             sb.Append("  League: ").Append(League).Append("\n");
             sb.Append("  Sport: ").Append(Sport).Append("\n");
+            sb.Append("  PlayerIds: ").Append(PlayerIds).Append("\n");
             sb.Append("  MatchState: ").Append(MatchState).Append("\n");
             sb.Append("}\n");
             return sb.ToString();

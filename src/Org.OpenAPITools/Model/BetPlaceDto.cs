@@ -40,16 +40,24 @@ namespace Org.OpenAPITools.Model
         /// Initializes a new instance of the <see cref="BetPlaceDto" /> class.
         /// </summary>
         /// <param name="stake">stake (required).</param>
-        public BetPlaceDto(int stake = default(int))
+        /// <param name="marketStateId">marketStateId (required).</param>
+        public BetPlaceDto(float stake = default(float), long marketStateId = default(long))
         {
             this.Stake = stake;
+            this.MarketStateId = marketStateId;
         }
 
         /// <summary>
         /// Gets or Sets Stake
         /// </summary>
         [DataMember(Name = "stake", IsRequired = true, EmitDefaultValue = true)]
-        public int Stake { get; set; }
+        public float Stake { get; set; }
+
+        /// <summary>
+        /// Gets or Sets MarketStateId
+        /// </summary>
+        [DataMember(Name = "marketStateId", IsRequired = true, EmitDefaultValue = true)]
+        public long MarketStateId { get; set; }
 
         /// <summary>
         /// Returns the string presentation of the object
@@ -60,6 +68,7 @@ namespace Org.OpenAPITools.Model
             StringBuilder sb = new StringBuilder();
             sb.Append("class BetPlaceDto {\n");
             sb.Append("  Stake: ").Append(Stake).Append("\n");
+            sb.Append("  MarketStateId: ").Append(MarketStateId).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }
@@ -80,8 +89,8 @@ namespace Org.OpenAPITools.Model
         /// <returns>Validation Result</returns>
         IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
         {
-            // Stake (int) minimum
-            if (this.Stake < (int)0)
+            // Stake (float) minimum
+            if (this.Stake < (float)0)
             {
                 yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for Stake, must be a value greater than or equal to 0.", new [] { "Stake" });
             }

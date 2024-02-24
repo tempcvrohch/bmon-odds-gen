@@ -5,11 +5,13 @@ Match between players with markets.
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
+**Id** | **long** |  | [optional] 
 **Name** | **string** |  | 
-**Live** | **bool** |  | [optional] 
-**League** | [**LeagueDto**](LeagueDto.md) |  | [optional] 
-**Sport** | [**SportDto**](SportDto.md) |  | [optional] 
-**MatchState** | [**MatchUpsertDtoMatchState**](MatchUpsertDtoMatchState.md) |  | [optional] 
+**Live** | **bool** |  | 
+**League** | [**LeagueDto**](LeagueDto.md) |  | 
+**Sport** | [**SportDto**](SportDto.md) |  | 
+**PlayerIds** | **List&lt;long&gt;** |  | 
+**MatchState** | [**MatchUpsertDtoMatchState**](MatchUpsertDtoMatchState.md) |  | 
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 

@@ -45,7 +45,9 @@ namespace Org.OpenAPITools.Model
         /// <param name="odd">odd (required).</param>
         /// <param name="suspended">suspended (required).</param>
         /// <param name="stakeLimit">stakeLimit.</param>
-        public MarketStateDto(long id = default(long), DateTime createdAt = default(DateTime), DateTime updatedAt = default(DateTime), float odd = default(float), bool suspended = default(bool), int stakeLimit = default(int))
+        /// <param name="market">market.</param>
+        /// <param name="player">player.</param>
+        public MarketStateDto(long id = default(long), DateTime createdAt = default(DateTime), DateTime updatedAt = default(DateTime), float odd = default(float), bool suspended = default(bool), int stakeLimit = default(int), MarketDto market = default(MarketDto), PlayerDto player = default(PlayerDto))
         {
             this.Id = id;
             this.Odd = odd;
@@ -53,6 +55,8 @@ namespace Org.OpenAPITools.Model
             this.CreatedAt = createdAt;
             this.UpdatedAt = updatedAt;
             this.StakeLimit = stakeLimit;
+            this.Market = market;
+            this.Player = player;
         }
 
         /// <summary>
@@ -92,6 +96,18 @@ namespace Org.OpenAPITools.Model
         public int StakeLimit { get; set; }
 
         /// <summary>
+        /// Gets or Sets Market
+        /// </summary>
+        [DataMember(Name = "market", EmitDefaultValue = false)]
+        public MarketDto Market { get; set; }
+
+        /// <summary>
+        /// Gets or Sets Player
+        /// </summary>
+        [DataMember(Name = "player", EmitDefaultValue = false)]
+        public PlayerDto Player { get; set; }
+
+        /// <summary>
         /// Returns the string presentation of the object
         /// </summary>
         /// <returns>String presentation of the object</returns>
@@ -105,6 +121,8 @@ namespace Org.OpenAPITools.Model
             sb.Append("  Odd: ").Append(Odd).Append("\n");
             sb.Append("  Suspended: ").Append(Suspended).Append("\n");
             sb.Append("  StakeLimit: ").Append(StakeLimit).Append("\n");
+            sb.Append("  Market: ").Append(Market).Append("\n");
+            sb.Append("  Player: ").Append(Player).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }

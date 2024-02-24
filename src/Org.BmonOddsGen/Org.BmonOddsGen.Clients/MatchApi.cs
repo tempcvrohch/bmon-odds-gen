@@ -9,7 +9,7 @@ public interface IBmonMatchApi
 {
 	MatchDto GetMatchById(long id, int operationIndex = 0);
 	MatchDto CreateMatch(MatchUpsertDto matchUpsertDto, int operationIndex = 0);
-	MatchDto UpdateMatchAndStates(long id, MatchUpsertDto matchUpsertDto, int operationIndex = 0);
+	void UpdateMatchAndStates(long id, MatchUpsertDto matchUpsertDto, int operationIndex = 0);
 }
 
 public class BmonMatchApi : MatchApi, IBmonMatchApi

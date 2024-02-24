@@ -1,3 +1,6 @@
+using Microsoft.Extensions.Options;
+using Org.BmonOddsGen.Host;
+
 namespace Org.BmonOddsGen.Core.Generate;
 
 public class GenerateBackgroundException : Exception
@@ -11,12 +14,14 @@ public class GenerateBackgroundService : BackgroundService
 	private readonly IGenerateSignaler _generateBackgroundService;
 	private Timer? _timer;
 	private readonly IMatchGenerator _matchGenerator;
-
-	public GenerateBackgroundService(ILogger<GenerateBackgroundService> logger, IGenerateSignaler generateBackgroundService, IMatchGenerator matchGenerator)
+	private readonly IOptions<EnviromentConfiguration> _options;
+	private readonly int DEFAULT_INTERVAL_TICKS_MS = 1000;
+	public GenerateBackgroundService(ILogger<GenerateBackgroundService> logger, IGenerateSignaler generateBackgroundService, IMatchGenerator matchGenerator, IOptions<EnviromentConfiguration> options)
 	{
 		_logger = logger;
 		_generateBackgroundService = generateBackgroundService;
 		_matchGenerator = matchGenerator;
+		_options = options;
 	}
 
 	protected override async Task ExecuteAsync(CancellationToken cancellationToken)
@@ -32,7 +37,9 @@ public class GenerateBackgroundService : BackgroundService
 					{
 						throw new GenerateBackgroundException("Tried to start timer with an already existing timer running.");
 					}
-					_timer = new Timer(DoWork, null, TimeSpan.FromSeconds(0), TimeSpan.FromSeconds(1));
+					var interval = _options.Value.GENERATE_INTERVAL_TICK_MS ?? DEFAULT_INTERVAL_TICKS_MS;
+					_logger.LogInformation("Starting matchgenerator timer, tick every {0} ms.", interval);
+					_timer = new Timer(DoWork, null, TimeSpan.FromSeconds(0), TimeSpan.FromMilliseconds(interval));
 					break;
 				case SignalerState.STOP:
 					if (_timer is null)
@@ -49,6 +56,13 @@ public class GenerateBackgroundService : BackgroundService
 
 	public void DoWork(object? state)
 	{
-		_matchGenerator.GenerateMatchesTick();
+		try
+		{
+			_matchGenerator.GenerateMatchesTick();
+		}
+		catch (Exception e)
+		{
+			_logger.LogDebug(e.ToString());
+		}
 	}
 }

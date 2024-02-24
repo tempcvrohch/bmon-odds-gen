@@ -188,7 +188,7 @@ No authorization required
 
 <a id="updatematchandstates"></a>
 # **UpdateMatchAndStates**
-> MatchDto UpdateMatchAndStates (long id, MatchUpsertDto matchUpsertDto)
+> void UpdateMatchAndStates (long id, MatchUpsertDto matchUpsertDto)
 
 Update a live match with a new matchState
 
@@ -215,8 +215,7 @@ namespace Example
             try
             {
                 // Update a live match with a new matchState
-                MatchDto result = apiInstance.UpdateMatchAndStates(id, matchUpsertDto);
-                Debug.WriteLine(result);
+                apiInstance.UpdateMatchAndStates(id, matchUpsertDto);
             }
             catch (ApiException  e)
             {
@@ -236,10 +235,7 @@ This returns an ApiResponse object which contains the response data, status code
 try
 {
     // Update a live match with a new matchState
-    ApiResponse<MatchDto> response = apiInstance.UpdateMatchAndStatesWithHttpInfo(id, matchUpsertDto);
-    Debug.Write("Status Code: " + response.StatusCode);
-    Debug.Write("Response Headers: " + response.Headers);
-    Debug.Write("Response Body: " + response.Data);
+    apiInstance.UpdateMatchAndStatesWithHttpInfo(id, matchUpsertDto);
 }
 catch (ApiException e)
 {
@@ -258,7 +254,7 @@ catch (ApiException e)
 
 ### Return type
 
-[**MatchDto**](MatchDto.md)
+void (empty response body)
 
 ### Authorization
 
@@ -267,7 +263,7 @@ No authorization required
 ### HTTP request headers
 
  - **Content-Type**: application/json
- - **Accept**: application/json
+ - **Accept**: Not defined
 
 
 ### HTTP response details

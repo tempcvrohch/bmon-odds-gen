@@ -20,6 +20,7 @@ docs/MatchUpsertDto.md
 docs/MatchUpsertDtoMatchState.md
 docs/MatchesApi.md
 docs/PlayerDto.md
+docs/PlayerDto.md
 docs/PlayersApi.md
 docs/SportDto.md
 docs/SportDto.md
@@ -67,6 +68,7 @@ src/Org.OpenAPITools/Model/MatchDto.cs
 src/Org.OpenAPITools/Model/MatchStateDto.cs
 src/Org.OpenAPITools/Model/MatchUpsertDto.cs
 src/Org.OpenAPITools/Model/MatchUpsertDtoMatchState.cs
+src/Org.OpenAPITools/Model/PlayerDto.cs
 src/Org.OpenAPITools/Model/PlayerDto.cs
 src/Org.OpenAPITools/Model/SportDto.cs
 src/Org.OpenAPITools/Model/SportDto.cs

@@ -11,25 +11,23 @@ namespace Org.BmonOddsGen.Core.Generate;
 public class GenerateController : ControllerBase
 {
 	private readonly IGenerateSignaler _generateSignaler;
-	private readonly IGenerateService _generateService;
 
-	public GenerateController(IGenerateSignaler generateSignaler, IGenerateService generateService)
+	public GenerateController(IGenerateSignaler generateSignaler)
 	{
 		_generateSignaler = generateSignaler;
-		_generateService = generateService;
 	}
 
 	[HttpGet("start")]
 	public IActionResult Start()
 	{
 		_generateSignaler.Signal(SignalerState.START);
-		return Ok("aaa");
+		return Ok();
 	}
 
 	[HttpGet("stop")]
 	public IActionResult Stop()
 	{
-		return Ok("bbb");
-		//generateSignaler.Signal(SignalerState.STOP);
+		_generateSignaler.Signal(SignalerState.STOP);
+		return Ok();
 	}
 }

@@ -1,6 +1,6 @@
 {
   "dockerComposeFile": ["../docker-compose.yaml", "docker-compose.yaml"],
-  "service": "workspace",
+  "service": "bmon-oddsgen",
   "workspaceFolder": "/workspace",
   "shutdownAction": "stopCompose",
   "customizations": {

@@ -1,4 +1,6 @@
+using Microsoft.Extensions.Options;
 using Org.BmonOddsGen.Core.Exceptions;
+using Org.BmonOddsGen.Host;
 using Org.OpenAPITools.Model;
 
 namespace Org.BmonOddsGen.Core.ScoreRuleset;
@@ -11,13 +13,16 @@ public class BmonScoreException : BmonStateException
 public class Tennis : IScoreRuleset
 {
 	private MatchStateDto _matchStateDto;
-	private const int SetWinningScore = 7;
-	private const int MaxSetsPerGame = 5;
-	private const int SetDiffForWin = 3;
+	private readonly int _setWinningScore;
+	private readonly int _maxSetsPerMatch;
+	private readonly int _setDiffForWin;
 
-	public Tennis(MatchStateDto matchStateDto)
+	public Tennis(MatchStateDto matchStateDto, IOptions<EnviromentConfiguration> env)
 	{
 		_matchStateDto = matchStateDto;
+		_setWinningScore = env.Value.ODDSGEN_TENNIS_WINNING_SCORE ?? 7;
+		_maxSetsPerMatch = env.Value.ODDSGEN_TENNIS_MAX_SETS_PER_MATCH ?? 5;
+		_setDiffForWin = env.Value.ODDSGEN_TENNIS_SET_DIFF_FOR_WIN ?? 3;
 	}
 
 	public MatchStateDto IncrementScore(int winnerIndex)
@@ -39,7 +44,6 @@ public class Tennis : IScoreRuleset
 	public bool HasMatchEnded()
 	{
 		// For now, assume the match has ended if 5 sets have been played.
-		// Also don't bother checking for a 3-0, just play 5 sets.
 		var setScore = _matchStateDto.SetScore;
 		var splitSetScore = setScore.Split(",");
 
@@ -47,15 +51,20 @@ public class Tennis : IScoreRuleset
 		var roundsWonOnPlayerIndex = new int[2];
 		foreach (var set in splitSetScore)
 		{
-			if (set.Contains(SetWinningScore.ToString()))
+			if (set.Contains(_setWinningScore.ToString()))
 			{
+				// No tiebreakers
+				if (splitSetScore.Count() >= 5)
+				{
+					return true;
+				}
 				// the set was completed, check the position of the "7" to decide who the winner is.
-				roundsWonOnPlayerIndex[set.IndexOf(SetWinningScore.ToString()) == 0 ? 0 : 1]++;
+				roundsWonOnPlayerIndex[set.IndexOf(_setWinningScore.ToString()) == 0 ? 0 : 1]++;
 			}
 		}
 
 		var roundsWonDiff = roundsWonOnPlayerIndex[0] - roundsWonOnPlayerIndex[1];
-		return Math.Abs(roundsWonDiff) >= SetDiffForWin;
+		return Math.Abs(roundsWonDiff) >= _setDiffForWin;
 	}
 
 	/**
@@ -82,7 +91,7 @@ public class Tennis : IScoreRuleset
 			scoreIntArray[winnerIndex] = 40;
 			scoreIntArray[otherPlayerIndex] = 30;
 		}
-		else if (winningPlayerScore == 55 && otherPlayerScore == 30)
+		else if (winningPlayerScore == 55 && otherPlayerScore <= 30)
 		{
 			// The player won the game, so reset point score and increment set score instead.
 			_matchStateDto.PointScore = "0-0";
@@ -117,8 +126,9 @@ public class Tennis : IScoreRuleset
 		splitSetScore[splitSetScore.Length - 1] = updatedLastSplitSetScore;
 
 		_matchStateDto.SetScore = string.Join(",", splitSetScore);
-		if (scoreIntArray[winnerIndex] == SetWinningScore && splitSetScore.Length < MaxSetsPerGame)
+		if (scoreIntArray[winnerIndex] == _setWinningScore && splitSetScore.Length < _maxSetsPerMatch && !HasMatchEnded())
 		{
+
 			// The set has been won, start a new set.
 			_matchStateDto.SetScore = _matchStateDto.SetScore + ",0-0";
 		}
