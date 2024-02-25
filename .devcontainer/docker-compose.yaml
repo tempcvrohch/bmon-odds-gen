@@ -9,8 +9,7 @@ services:
       args:
         VARIANT: "8.0-bookworm"
     volumes:
-      # Mounts the project folder to '/workspace'. While this file is in .devcontainer,
-      # mounts are relative to the first file in the list, which is a level up.
+      # figure out why /obj folders keep reverting to root:root, root group and tmpfs combo issue?
       - .:/workspace
       - type: tmpfs
         target: /tmp
@@ -28,6 +27,8 @@ services:
     command: /bin/sh -c "while sleep 1000; do :; done"
     networks:
       - main
+    ports:
+      - "8081:8081"
     external_links:
       - postgres
 

@@ -8,7 +8,7 @@ All URIs are relative to *http://petstore.swagger.io/v2*
 
 <a id="placebet"></a>
 # **PlaceBet**
-> BetDto PlaceBet (long marketStateId, BetPlaceDto betPlaceDto)
+> BetDto PlaceBet (string X_XSRF_TOKEN, long marketStateId, BetPlaceDto betPlaceDto)
 
 Place a wager.
 
@@ -29,13 +29,14 @@ namespace Example
             Configuration config = new Configuration();
             config.BasePath = "http://petstore.swagger.io/v2";
             var apiInstance = new BetApi(config);
+            var X_XSRF_TOKEN = "X_XSRF_TOKEN_example";  // string | 
             var marketStateId = 789L;  // long | Id of the market state to place the bet on.
             var betPlaceDto = new BetPlaceDto(); // BetPlaceDto | 
 
             try
             {
                 // Place a wager.
-                BetDto result = apiInstance.PlaceBet(marketStateId, betPlaceDto);
+                BetDto result = apiInstance.PlaceBet(X_XSRF_TOKEN, marketStateId, betPlaceDto);
                 Debug.WriteLine(result);
             }
             catch (ApiException  e)
@@ -56,7 +57,7 @@ This returns an ApiResponse object which contains the response data, status code
 try
 {
     // Place a wager.
-    ApiResponse<BetDto> response = apiInstance.PlaceBetWithHttpInfo(marketStateId, betPlaceDto);
+    ApiResponse<BetDto> response = apiInstance.PlaceBetWithHttpInfo(X_XSRF_TOKEN, marketStateId, betPlaceDto);
     Debug.Write("Status Code: " + response.StatusCode);
     Debug.Write("Response Headers: " + response.Headers);
     Debug.Write("Response Body: " + response.Data);
@@ -73,6 +74,7 @@ catch (ApiException e)
 
 | Name | Type | Description | Notes |
 |------|------|-------------|-------|
+| **X_XSRF_TOKEN** | **string** |  |  |
 | **marketStateId** | **long** | Id of the market state to place the bet on. |  |
 | **betPlaceDto** | [**BetPlaceDto**](BetPlaceDto.md) |  |  |
 

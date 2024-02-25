@@ -66,7 +66,7 @@ public class BmonResourceStore : IBmonResourceStore
 	public async Task<List<LeagueDto>> FetchLeagues()
 	{
 		var leagueList = await _leaguesApi.GetAllLeaguesAsync();
-		if (leagueList.Count == 0)
+		if (leagueList is null || leagueList.Count == 0)
 		{
 			throw new BmonStateException(500);
 		}
@@ -77,7 +77,7 @@ public class BmonResourceStore : IBmonResourceStore
 	public async Task<List<PlayerDto>> FetchPlayers()
 	{
 		var playerList = await _playersApi.GetAllPlayersAsync();
-		if (playerList.Count == 0)
+		if (playerList is null || playerList.Count == 0)
 		{
 			throw new BmonStateException(500);
 		}
@@ -88,7 +88,7 @@ public class BmonResourceStore : IBmonResourceStore
 	public async Task<List<SportDto>> FetchSports()
 	{
 		var sportList = await _sportsApi.GetAllSportsAsync();
-		if (sportList.Count == 0)
+		if (sportList is null || sportList.Count == 0)
 		{
 			throw new BmonStateException(500);
 		}

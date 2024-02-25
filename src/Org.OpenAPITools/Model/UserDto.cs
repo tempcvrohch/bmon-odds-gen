@@ -43,9 +43,8 @@ namespace Org.OpenAPITools.Model
         /// <param name="createdAt">createdAt.</param>
         /// <param name="updatedAt">updatedAt.</param>
         /// <param name="username">username (required).</param>
-        /// <param name="password">password (required).</param>
         /// <param name="balance">balance.</param>
-        public UserDto(long id = default(long), DateTime createdAt = default(DateTime), DateTime updatedAt = default(DateTime), string username = default(string), string password = default(string), long balance = default(long))
+        public UserDto(long id = default(long), DateTime createdAt = default(DateTime), DateTime updatedAt = default(DateTime), string username = default(string), long balance = default(long))
         {
             this.Id = id;
             // to ensure "username" is required (not null)
@@ -54,12 +53,6 @@ namespace Org.OpenAPITools.Model
                 throw new ArgumentNullException("username is a required property for UserDto and cannot be null");
             }
             this.Username = username;
-            // to ensure "password" is required (not null)
-            if (password == null)
-            {
-                throw new ArgumentNullException("password is a required property for UserDto and cannot be null");
-            }
-            this.Password = password;
             this.CreatedAt = createdAt;
             this.UpdatedAt = updatedAt;
             this.Balance = balance;
@@ -90,12 +83,6 @@ namespace Org.OpenAPITools.Model
         public string Username { get; set; }
 
         /// <summary>
-        /// Gets or Sets Password
-        /// </summary>
-        [DataMember(Name = "password", IsRequired = true, EmitDefaultValue = true)]
-        public string Password { get; set; }
-
-        /// <summary>
         /// Gets or Sets Balance
         /// </summary>
         [DataMember(Name = "balance", EmitDefaultValue = false)]
@@ -113,7 +100,6 @@ namespace Org.OpenAPITools.Model
             sb.Append("  CreatedAt: ").Append(CreatedAt).Append("\n");
             sb.Append("  UpdatedAt: ").Append(UpdatedAt).Append("\n");
             sb.Append("  Username: ").Append(Username).Append("\n");
-            sb.Append("  Password: ").Append(Password).Append("\n");
             sb.Append("  Balance: ").Append(Balance).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
@@ -145,18 +131,6 @@ namespace Org.OpenAPITools.Model
             if (this.Username != null && this.Username.Length < 6)
             {
                 yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for Username, length must be greater than 6.", new [] { "Username" });
-            }
-
-            // Password (string) maxLength
-            if (this.Password != null && this.Password.Length > 32)
-            {
-                yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for Password, length must be less than 32.", new [] { "Password" });
-            }
-
-            // Password (string) minLength
-            if (this.Password != null && this.Password.Length < 6)
-            {
-                yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for Password, length must be greater than 6.", new [] { "Password" });
             }
 
             yield break;

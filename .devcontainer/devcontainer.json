@@ -21,6 +21,9 @@
   "postCreateCommand": {
     "oddsgen-workspace-main-bin": "sudo chown vscode /workspace/src/Org.BmonOddsGen/bin/",
     "oddsgen-workspace-main-openapi": "sudo chown vscode /workspace/src/Org.OpenAPITools/bin/",
-    "oddsgen-workspace-main-test": "sudo chown vscode /workspace/src/Org.BmonOddsGen.Test/bin/"
+    "oddsgen-workspace-main-test": "sudo chown vscode /workspace/src/Org.BmonOddsGen.Test/bin/",
+    "oddsgen-workspace-main-obj-bin": "sudo chown vscode /workspace/src/Org.BmonOddsGen/obj/",
+    "oddsgen-workspace-main-obj-openapi": "sudo chown vscode /workspace/src/Org.OpenAPITools/obj/",
+    "oddsgen-workspace-main-obj-test": "sudo chown vscode /workspace/src/Org.BmonOddsGen.Test/obj/"
   }
 }

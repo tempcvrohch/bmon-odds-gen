@@ -1,13 +1,24 @@
+using Microsoft.Extensions.Options;
+using Moq;
 using Org.BmonOddsGen.Core.ScoreRuleset;
+using Org.BmonOddsGen.Host;
 using Org.OpenAPITools.Model;
 
 namespace Org.BmonOddsGen.Test;
 
 public class ScoreServiceTest
 {
+	private readonly IOptions<EnviromentConfiguration> _env;
 
 	public ScoreServiceTest()
 	{
+		var env = new Mock<IOptions<EnviromentConfiguration>>();
+		env.Setup(e => e.Value).Returns(new EnviromentConfiguration()
+		{
+			BMON_BACKEND_URL = "http://localhost:1212",
+			ODDSGEN_MAX_LIVE_GAMES = 20
+		});
+		_env = env.Object;
 	}
 
 	[Theory]
@@ -24,7 +35,7 @@ public class ScoreServiceTest
 	public void IncrementSetScore_ValidSetScore_ReturnsIncrementedSetScore(string sport, int winnerIndex, string score, string expectedScore)
 	{
 		var matchState = new MatchStateDto();
-		var tennis = ScoreService.GetRulesetOnSport(sport, matchState);
+		var tennis = ScoreService.GetRulesetOnSport(sport, matchState, _env);
 		matchState.SetScore = score;
 		tennis.IncrementSetScore(winnerIndex);
 
@@ -43,7 +54,7 @@ public class ScoreServiceTest
 	public void IncrementPointScore_ValidPointScore_ReturnsIncrementedPointScore(string sport, int winnerIndex, string score, string expectedScore)
 	{
 		var matchState = new MatchStateDto();
-		var tennis = ScoreService.GetRulesetOnSport(sport, matchState);
+		var tennis = ScoreService.GetRulesetOnSport(sport, matchState, _env);
 		matchState.PointScore = score;
 		matchState.SetScore = "0-0";
 		tennis.IncrementPointScore(winnerIndex);
@@ -59,7 +70,7 @@ public class ScoreServiceTest
 	public void IncrementPointScore_ValidPointScore_ReturnsIncrementedSetScore(string sport, int winnerIndex, string score, string expectedScore, string setScore, string expectedSetScore)
 	{
 		var matchState = new MatchStateDto();
-		var tennis = ScoreService.GetRulesetOnSport(sport, matchState);
+		var tennis = ScoreService.GetRulesetOnSport(sport, matchState, _env);
 		matchState.PointScore = score;
 		matchState.SetScore = setScore;
 		tennis.IncrementPointScore(winnerIndex);
@@ -77,7 +88,7 @@ public class ScoreServiceTest
 	public void IncrementPointScore_ValidPointScore_ReturnsFreshSet(string sport, int winnerIndex, string score, string expectedScore, string setScore, string expectedSetScore)
 	{
 		var matchState = new MatchStateDto();
-		var tennis = ScoreService.GetRulesetOnSport(sport, matchState);
+		var tennis = ScoreService.GetRulesetOnSport(sport, matchState, _env);
 		matchState.PointScore = score;
 		matchState.SetScore = setScore;
 		tennis.IncrementPointScore(winnerIndex);
@@ -93,7 +104,7 @@ public class ScoreServiceTest
 	public void HasMatchEnded_ValidSetScore_ReturnsTrue(string sport, string setScore)
 	{
 		var matchState = new MatchStateDto();
-		var tennis = ScoreService.GetRulesetOnSport(sport, matchState);
+		var tennis = ScoreService.GetRulesetOnSport(sport, matchState, _env);
 		matchState.SetScore = setScore;
 
 		Assert.True(tennis.HasMatchEnded());
@@ -101,10 +112,11 @@ public class ScoreServiceTest
 
 	[Theory]
 	[InlineData("Tennis", "7-6,2-7,3-7,5-7,6-6")]
+	[InlineData("Tennis", "7-3,5-7,2-7,2-7")]
 	public void HasMatchEnded_ValidSetScore_ReturnsFalse(string sport, string setScore)
 	{
 		var matchState = new MatchStateDto();
-		var tennis = ScoreService.GetRulesetOnSport(sport, matchState);
+		var tennis = ScoreService.GetRulesetOnSport(sport, matchState, _env);
 		matchState.SetScore = setScore;
 
 		Assert.False(tennis.HasMatchEnded());

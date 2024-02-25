@@ -18,9 +18,11 @@ public class MatchGeneratorTest
 	IBmonResourceStore _bmonResourceStore;
 	IOptions<EnviromentConfiguration> _env;
 	IBmonMatchApi? _bmonMatchApi;
+	string _uuid;
 
 	public MatchGeneratorTest()
 	{
+		_uuid = "be02bfd7-e13d-488f-b8d2-8b07e279c416";
 		var logger = new Mock<ILogger<MatchGenerator>>();
 		_logger = logger.Object;
 
@@ -39,17 +41,17 @@ public class MatchGeneratorTest
 
 		bmonResourceStore.Setup(e => e._leagueList).Returns(new List<LeagueDto>(){
 			new LeagueDto(0, DateTime.Now, DateTime.Now, "League smallboys"){},
-			new LeagueDto(0, DateTime.Now, DateTime.Now, "League bigboys"){},
+			new LeagueDto(1, DateTime.Now, DateTime.Now, "League bigboys"){},
 		});
 
 		bmonResourceStore.Setup(e => e._playerList).Returns(new List<PlayerDto>(){
 			new PlayerDto(0, DateTime.Now, DateTime.Now, "Michael", "Jackson", "michael-jackson", "US"){},
-			new PlayerDto(0, DateTime.Now, DateTime.Now, "Pierce", "Lemon", "pierce-lemon", "US"){},
-			new PlayerDto(0, DateTime.Now, DateTime.Now, "Lebron", "James", "lebron-james", "US"){},
-			new PlayerDto(0, DateTime.Now, DateTime.Now, "Arjen", "Robben", "arjen-robben", "NL"){},
-			new PlayerDto(0, DateTime.Now, DateTime.Now, "Michael", "Shumagger", "michael-schumagger", "DU"){},
-			new PlayerDto(0, DateTime.Now, DateTime.Now, "Max", "Verstappen", "max-verstappen", "NL"){},
-			new PlayerDto(0, DateTime.Now, DateTime.Now, "Lewis", "Hammilton", "lewis-hammilton", "UK}"){},
+			new PlayerDto(1, DateTime.Now, DateTime.Now, "Pierce", "Lemon", "pierce-lemon", "US"){},
+			new PlayerDto(2, DateTime.Now, DateTime.Now, "Lebron", "James", "lebron-james", "US"){},
+			new PlayerDto(3, DateTime.Now, DateTime.Now, "Arjen", "Robben", "arjen-robben", "NL"){},
+			new PlayerDto(4, DateTime.Now, DateTime.Now, "Michael", "Shumagger", "michael-schumagger", "DU"){},
+			new PlayerDto(5, DateTime.Now, DateTime.Now, "Max", "Verstappen", "max-verstappen", "NL"){},
+			new PlayerDto(6, DateTime.Now, DateTime.Now, "Lewis", "Hammilton", "lewis-hammilton", "UK}"){},
 		});
 		_bmonResourceStore = bmonResourceStore.Object;
 	}
@@ -57,17 +59,18 @@ public class MatchGeneratorTest
 	[Fact]
 	public void GenerateMatchesTick_InitialEmptyState_HasCreatedMatches(){
 		var bmonMatchApi = new Mock<IBmonMatchApi>();
-		bmonMatchApi.Setup(b => b.CreateMatch(It.IsAny<MatchUpsertDto>(), 0))
-			.Returns((MatchUpsertDto matchUpsertDto, int noIdea) => {
-				return new MatchDto(name: matchUpsertDto.Name, sport: new SportDto(name: "Tennis"), matchState: new MatchStateDto(pointScore: "0-0", setScore: "0-0"));
+		var matchIndex = 0;
+		bmonMatchApi.Setup(b => b.CreateMatch(It.IsAny<string>(), It.IsAny<MatchUpsertDto>(), 0))
+			.Returns((string uuid, MatchUpsertDto matchUpsertDto, int noIdea) => {
+				return new MatchDto(id: matchIndex++, name: matchUpsertDto.Name, league: new LeagueDto(name: "big boys"), sport: new SportDto(name: "Tennis"), matchState: new MatchStateDto(pointScore: "0-0", setScore: "0-0"));
 			});
-		bmonMatchApi.Setup(b => b.UpdateMatchAndStates(It.IsAny<int>(), It.IsAny<MatchUpsertDto>(), It.IsAny<int>()));
+		bmonMatchApi.Setup(b => b.UpdateMatchAndStates(It.IsAny<string>(), It.IsAny<int>(), It.IsAny<MatchUpsertDto>(), It.IsAny<int>()));
 
 		var matchGenerator = new MatchGenerator(_logger, _bmonResourceStore, _env, bmonMatchApi.Object);
 		matchGenerator.GenerateMatchesTick();
 
-		bmonMatchApi.Verify(b => b.CreateMatch(It.IsAny<MatchUpsertDto>(), 0), Times.Exactly(3));
-		bmonMatchApi.Verify(b => b.UpdateMatchAndStates(It.IsAny<long>(), It.IsAny<MatchUpsertDto>(), It.IsAny<int>()), Times.Exactly(3));
+		bmonMatchApi.Verify(b => b.CreateMatch(It.IsAny<string>(), It.IsAny<MatchUpsertDto>(), 0), Times.Exactly(3));
+		bmonMatchApi.Verify(b => b.UpdateMatchAndStates(It.IsAny<string>(), It.IsAny<long>(), It.IsAny<MatchUpsertDto>(), It.IsAny<int>()), Times.Exactly(3));
 		
 		Assert.Equal(3, matchGenerator._liveMatches.Count);
 	}

@@ -4,6 +4,7 @@ using Org.BmonOddsGen.Core.ScoreRuleset;
 using Org.BmonOddsGen.Clients;
 using Org.BmonOddsGen.Host;
 using Org.OpenAPITools.Model;
+using Newtonsoft.Json;
 
 namespace Org.BmonOddsGen.Core.Generate;
 
@@ -41,6 +42,8 @@ public class MatchGenerator : IMatchGenerator
 	private readonly int _maxLiveGames;
 	private List<LeagueDto>? _leagues;
 	private List<PlayerDto>? _players;
+	// TODO: overcomplicating things by not sending player dto's in MatchDto
+	private List<PlayerDto> _inPlayPlayers;
 	private List<SportDto>? _sports;
 	private Dictionary<long, List<long>> _matchIdToPlayerIdsMap;
 
@@ -52,6 +55,8 @@ public class MatchGenerator : IMatchGenerator
 		_maxLiveGames = env.Value.ODDSGEN_MAX_LIVE_GAMES ?? 10;
 		_bmonMatchApi = bmonMatchApi;
 		_matchIdToPlayerIdsMap = new Dictionary<long, List<long>>();
+		_players = new List<PlayerDto>();
+		_inPlayPlayers = new List<PlayerDto>();
 		_env = env;
 		_creationStats = new CreationStats();
 	}
@@ -59,8 +64,10 @@ public class MatchGenerator : IMatchGenerator
 	public void GenerateMatchesTick()
 	{
 		_creationStats.generateTicks++;
-		if(_creationStats.generateTicks % 10 == 0){
-			_logger.LogDebug(_creationStats.ToString());
+		if (_creationStats.generateTicks % 10 == 0)
+		{
+
+			_logger.LogDebug(JsonConvert.SerializeObject(_creationStats));
 		}
 
 		// TODO: check for new sports/leagues/players after the first load and merge them 
@@ -93,10 +100,12 @@ public class MatchGenerator : IMatchGenerator
 				var p1Index = random.Next(_players.Count);
 				var player1 = _players[p1Index];
 				_players.RemoveAt(p1Index);
+				_inPlayPlayers.Add(player1);
 
 				var p2Index = random.Next(_players.Count);
 				var player2 = _players[p2Index];
 				_players.RemoveAt(p2Index);
+				_inPlayPlayers.Add(player2);
 
 				CreateNewMatch(_sports[sIndex], _leagues[lIndex], player1, player2);
 			}
@@ -135,7 +144,8 @@ public class MatchGenerator : IMatchGenerator
 		_creationStats.matchesSent++;
 		try
 		{
-			insertedMatch = _bmonMatchApi.CreateMatch(matchUpsert);
+			// TODO: xrsf tokens should be optional for non-web
+			insertedMatch = _bmonMatchApi.CreateMatch("x-x-x-x-x", matchUpsert);
 			_creationStats.matchesCreated++;
 		}
 		catch (Exception e)
@@ -156,18 +166,19 @@ public class MatchGenerator : IMatchGenerator
 		foreach (var liveMatchPair in _liveMatches)
 		{
 			var liveMatch = liveMatchPair.Value;
+			var playerIds = _matchIdToPlayerIdsMap[liveMatch.Id];
 			var ruleset = ScoreService.GetRulesetOnSport(liveMatch.Sport.Name, liveMatch.MatchState, _env);
 			ruleset.IncrementScore(random.Next(0, 2));
 			if (ruleset.HasMatchEnded())
 			{
 				liveMatch.Live = false;
 				_liveMatches.Remove(liveMatchPair.Key);
+				ResetPlayerDictionaries(playerIds);
 			}
 
 			// TODO: find the c# alternative of mapstruct
 			// TODO: also fix the sloppy playerIds, fix MatchDto and send the playerDto's
 			MatchUpsertDtoMatchState matchStateDto = new MatchUpsertDtoMatchState(liveMatch.MatchState.PointScore, liveMatch.MatchState.ServingIndex, liveMatch.MatchState.SetScore);
-			var playerIds = _matchIdToPlayerIdsMap[liveMatch.Id];
 			if (playerIds is null)
 			{
 				throw new Exception("Missing playerIds for Match: " + liveMatch.Id);
@@ -178,7 +189,7 @@ public class MatchGenerator : IMatchGenerator
 			_creationStats.matchUpdatesSent++;
 			try
 			{
-				_bmonMatchApi.UpdateMatchAndStates(liveMatch.Id, matchUpsert);
+				_bmonMatchApi.UpdateMatchAndStates("x-x-x-x-x", liveMatch.Id, matchUpsert);
 				_creationStats.matchUpdates++;
 			}
 			catch (Exception e)
@@ -186,5 +197,15 @@ public class MatchGenerator : IMatchGenerator
 				_creationStats.matchUpdatesExcepted++;
 			}
 		}
+	}
+
+	private void ResetPlayerDictionaries(List<long> playerIds)
+	{
+		var p1 = _inPlayPlayers.Find(playerDto => playerDto.Id == playerIds[0]);
+		var p2 = _inPlayPlayers.Find(playerDto => playerDto.Id == playerIds[1]);
+		_players.Add(p1);
+		_players.Add(p2);
+		_inPlayPlayers.Remove(p1);
+		_inPlayPlayers.Remove(p2);
 	}
 }

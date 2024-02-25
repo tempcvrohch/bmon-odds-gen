@@ -8,8 +8,8 @@ namespace Org.BmonOddsGen.Clients;
 public interface IBmonMatchApi
 {
 	MatchDto GetMatchById(long id, int operationIndex = 0);
-	MatchDto CreateMatch(MatchUpsertDto matchUpsertDto, int operationIndex = 0);
-	void UpdateMatchAndStates(long id, MatchUpsertDto matchUpsertDto, int operationIndex = 0);
+	MatchDto CreateMatch(string X_XSRF_TOKEN, MatchUpsertDto matchUpsertDto, int operationIndex = 0);
+	void UpdateMatchAndStates(string X_XSRF_TOKEN, long id, MatchUpsertDto matchUpsertDto, int operationIndex = 0);
 }
 
 public class BmonMatchApi : MatchApi, IBmonMatchApi

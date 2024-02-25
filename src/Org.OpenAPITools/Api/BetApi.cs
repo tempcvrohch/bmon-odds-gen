@@ -30,11 +30,12 @@ namespace Org.OpenAPITools.Api
         /// Place a wager.
         /// </summary>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="X_XSRF_TOKEN"></param>
         /// <param name="marketStateId">Id of the market state to place the bet on.</param>
         /// <param name="betPlaceDto"></param>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <returns>BetDto</returns>
-        BetDto PlaceBet(long marketStateId, BetPlaceDto betPlaceDto, int operationIndex = 0);
+        BetDto PlaceBet(string X_XSRF_TOKEN, long marketStateId, BetPlaceDto betPlaceDto, int operationIndex = 0);
 
         /// <summary>
         /// Place a wager.
@@ -43,11 +44,12 @@ namespace Org.OpenAPITools.Api
         /// 
         /// </remarks>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="X_XSRF_TOKEN"></param>
         /// <param name="marketStateId">Id of the market state to place the bet on.</param>
         /// <param name="betPlaceDto"></param>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <returns>ApiResponse of BetDto</returns>
-        ApiResponse<BetDto> PlaceBetWithHttpInfo(long marketStateId, BetPlaceDto betPlaceDto, int operationIndex = 0);
+        ApiResponse<BetDto> PlaceBetWithHttpInfo(string X_XSRF_TOKEN, long marketStateId, BetPlaceDto betPlaceDto, int operationIndex = 0);
         #endregion Synchronous Operations
     }
 
@@ -64,12 +66,13 @@ namespace Org.OpenAPITools.Api
         /// 
         /// </remarks>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="X_XSRF_TOKEN"></param>
         /// <param name="marketStateId">Id of the market state to place the bet on.</param>
         /// <param name="betPlaceDto"></param>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of BetDto</returns>
-        System.Threading.Tasks.Task<BetDto> PlaceBetAsync(long marketStateId, BetPlaceDto betPlaceDto, int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        System.Threading.Tasks.Task<BetDto> PlaceBetAsync(string X_XSRF_TOKEN, long marketStateId, BetPlaceDto betPlaceDto, int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
 
         /// <summary>
         /// Place a wager.
@@ -78,12 +81,13 @@ namespace Org.OpenAPITools.Api
         /// 
         /// </remarks>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="X_XSRF_TOKEN"></param>
         /// <param name="marketStateId">Id of the market state to place the bet on.</param>
         /// <param name="betPlaceDto"></param>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse (BetDto)</returns>
-        System.Threading.Tasks.Task<ApiResponse<BetDto>> PlaceBetWithHttpInfoAsync(long marketStateId, BetPlaceDto betPlaceDto, int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        System.Threading.Tasks.Task<ApiResponse<BetDto>> PlaceBetWithHttpInfoAsync(string X_XSRF_TOKEN, long marketStateId, BetPlaceDto betPlaceDto, int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
         #endregion Asynchronous Operations
     }
 
@@ -208,13 +212,14 @@ namespace Org.OpenAPITools.Api
         /// Place a wager. 
         /// </summary>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="X_XSRF_TOKEN"></param>
         /// <param name="marketStateId">Id of the market state to place the bet on.</param>
         /// <param name="betPlaceDto"></param>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <returns>BetDto</returns>
-        public BetDto PlaceBet(long marketStateId, BetPlaceDto betPlaceDto, int operationIndex = 0)
+        public BetDto PlaceBet(string X_XSRF_TOKEN, long marketStateId, BetPlaceDto betPlaceDto, int operationIndex = 0)
         {
-            Org.OpenAPITools.Client.ApiResponse<BetDto> localVarResponse = PlaceBetWithHttpInfo(marketStateId, betPlaceDto);
+            Org.OpenAPITools.Client.ApiResponse<BetDto> localVarResponse = PlaceBetWithHttpInfo(X_XSRF_TOKEN, marketStateId, betPlaceDto);
             return localVarResponse.Data;
         }
 
@@ -222,12 +227,19 @@ namespace Org.OpenAPITools.Api
         /// Place a wager. 
         /// </summary>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="X_XSRF_TOKEN"></param>
         /// <param name="marketStateId">Id of the market state to place the bet on.</param>
         /// <param name="betPlaceDto"></param>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <returns>ApiResponse of BetDto</returns>
-        public Org.OpenAPITools.Client.ApiResponse<BetDto> PlaceBetWithHttpInfo(long marketStateId, BetPlaceDto betPlaceDto, int operationIndex = 0)
+        public Org.OpenAPITools.Client.ApiResponse<BetDto> PlaceBetWithHttpInfo(string X_XSRF_TOKEN, long marketStateId, BetPlaceDto betPlaceDto, int operationIndex = 0)
         {
+            // verify the required parameter 'X_XSRF_TOKEN' is set
+            if (X_XSRF_TOKEN == null)
+            {
+                throw new Org.OpenAPITools.Client.ApiException(400, "Missing required parameter 'X_XSRF_TOKEN' when calling BetApi->PlaceBet");
+            }
+
             // verify the required parameter 'betPlaceDto' is set
             if (betPlaceDto == null)
             {
@@ -258,6 +270,7 @@ namespace Org.OpenAPITools.Api
             }
 
             localVarRequestOptions.PathParameters.Add("marketStateId", Org.OpenAPITools.Client.ClientUtils.ParameterToString(marketStateId)); // path parameter
+            localVarRequestOptions.HeaderParameters.Add("X-XSRF-TOKEN", Org.OpenAPITools.Client.ClientUtils.ParameterToString(X_XSRF_TOKEN)); // header parameter
             localVarRequestOptions.Data = betPlaceDto;
 
             localVarRequestOptions.Operation = "BetApi.PlaceBet";
@@ -282,14 +295,15 @@ namespace Org.OpenAPITools.Api
         /// Place a wager. 
         /// </summary>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="X_XSRF_TOKEN"></param>
         /// <param name="marketStateId">Id of the market state to place the bet on.</param>
         /// <param name="betPlaceDto"></param>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of BetDto</returns>
-        public async System.Threading.Tasks.Task<BetDto> PlaceBetAsync(long marketStateId, BetPlaceDto betPlaceDto, int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public async System.Threading.Tasks.Task<BetDto> PlaceBetAsync(string X_XSRF_TOKEN, long marketStateId, BetPlaceDto betPlaceDto, int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
-            Org.OpenAPITools.Client.ApiResponse<BetDto> localVarResponse = await PlaceBetWithHttpInfoAsync(marketStateId, betPlaceDto, operationIndex, cancellationToken).ConfigureAwait(false);
+            Org.OpenAPITools.Client.ApiResponse<BetDto> localVarResponse = await PlaceBetWithHttpInfoAsync(X_XSRF_TOKEN, marketStateId, betPlaceDto, operationIndex, cancellationToken).ConfigureAwait(false);
             return localVarResponse.Data;
         }
 
@@ -297,13 +311,20 @@ namespace Org.OpenAPITools.Api
         /// Place a wager. 
         /// </summary>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="X_XSRF_TOKEN"></param>
         /// <param name="marketStateId">Id of the market state to place the bet on.</param>
         /// <param name="betPlaceDto"></param>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse (BetDto)</returns>
-        public async System.Threading.Tasks.Task<Org.OpenAPITools.Client.ApiResponse<BetDto>> PlaceBetWithHttpInfoAsync(long marketStateId, BetPlaceDto betPlaceDto, int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public async System.Threading.Tasks.Task<Org.OpenAPITools.Client.ApiResponse<BetDto>> PlaceBetWithHttpInfoAsync(string X_XSRF_TOKEN, long marketStateId, BetPlaceDto betPlaceDto, int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
+            // verify the required parameter 'X_XSRF_TOKEN' is set
+            if (X_XSRF_TOKEN == null)
+            {
+                throw new Org.OpenAPITools.Client.ApiException(400, "Missing required parameter 'X_XSRF_TOKEN' when calling BetApi->PlaceBet");
+            }
+
             // verify the required parameter 'betPlaceDto' is set
             if (betPlaceDto == null)
             {
@@ -335,6 +356,7 @@ namespace Org.OpenAPITools.Api
             }
 
             localVarRequestOptions.PathParameters.Add("marketStateId", Org.OpenAPITools.Client.ClientUtils.ParameterToString(marketStateId)); // path parameter
+            localVarRequestOptions.HeaderParameters.Add("X-XSRF-TOKEN", Org.OpenAPITools.Client.ClientUtils.ParameterToString(X_XSRF_TOKEN)); // header parameter
             localVarRequestOptions.Data = betPlaceDto;
 
             localVarRequestOptions.Operation = "BetApi.PlaceBet";

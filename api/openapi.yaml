@@ -15,6 +15,12 @@ paths:
   /auth/register:
     post:
       operationId: register
+      parameters:
+      - in: header
+        name: X-XSRF-TOKEN
+        required: true
+        schema:
+          type: string
       requestBody:
         content:
           application/json:
@@ -33,6 +39,18 @@ paths:
         "409":
           description: username was taken
       summary: register a new user.
+      tags:
+      - user
+      - auth
+  /auth/login:
+    post:
+      operationId: login
+      requestBody:
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/user-login-dto'
+      summary: Logs the user in
       tags:
       - user
       - auth
@@ -76,6 +94,11 @@ paths:
     post:
       operationId: placeBet
       parameters:
+      - in: header
+        name: X-XSRF-TOKEN
+        required: true
+        schema:
+          type: string
       - description: Id of the market state to place the bet on.
         in: path
         name: marketStateId
@@ -105,6 +128,12 @@ paths:
   /match:
     post:
       operationId: createMatch
+      parameters:
+      - in: header
+        name: X-XSRF-TOKEN
+        required: true
+        schema:
+          type: string
       requestBody:
         content:
           application/json:
@@ -145,6 +174,11 @@ paths:
     put:
       operationId: updateMatchAndStates
       parameters:
+      - in: header
+        name: X-XSRF-TOKEN
+        required: true
+        schema:
+          type: string
       - description: Id of match to update.
         in: path
         name: id
@@ -340,12 +374,6 @@ components:
         properties:
           name:
             type: string
-          odd:
-            format: float
-            type: number
-          stakeLimit:
-            format: float
-            type: number
         required:
         - name
         - odd
@@ -388,24 +416,25 @@ components:
             maxLength: 32
             minLength: 6
             type: string
-          password:
-            maxLength: 32
-            minLength: 6
-            type: string
           balance:
             format: int64
             type: integer
         required:
-        - password
         - username
         type: object
       example:
-        password: password
         updated_at: 2000-01-23T04:56:07.000+00:00
         balance: 6
         created_at: 2000-01-23T04:56:07.000+00:00
         id: 0
         username: username
+    user-login-dto:
+      properties:
+        username:
+          type: string
+        password:
+          type: string
+      type: object
     bet-dto:
       allOf:
       - $ref: '#/components/schemas/base-schema-id'
@@ -655,12 +684,6 @@ components:
         properties:
           name:
             type: string
-          odd:
-            format: float
-            type: number
-          stakeLimit:
-            format: float
-            type: number
         required:
         - name
         - odd

@@ -43,9 +43,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="createdAt">createdAt.</param>
         /// <param name="updatedAt">updatedAt.</param>
         /// <param name="name">name (required).</param>
-        /// <param name="odd">odd (required).</param>
-        /// <param name="stakeLimit">stakeLimit (required).</param>
-        public MarketDto(long id = default(long), DateTime createdAt = default(DateTime), DateTime updatedAt = default(DateTime), string name = default(string), float odd = default(float), float stakeLimit = default(float))
+        public MarketDto(long id = default(long), DateTime createdAt = default(DateTime), DateTime updatedAt = default(DateTime), string name = default(string))
         {
             this.Id = id;
             // to ensure "name" is required (not null)
@@ -54,8 +52,6 @@ namespace Org.OpenAPITools.Model
                 throw new ArgumentNullException("name is a required property for MarketDto and cannot be null");
             }
             this.Name = name;
-            this.Odd = odd;
-            this.StakeLimit = stakeLimit;
             this.CreatedAt = createdAt;
             this.UpdatedAt = updatedAt;
         }
@@ -85,18 +81,6 @@ namespace Org.OpenAPITools.Model
         public string Name { get; set; }
 
         /// <summary>
-        /// Gets or Sets Odd
-        /// </summary>
-        [DataMember(Name = "odd", IsRequired = true, EmitDefaultValue = true)]
-        public float Odd { get; set; }
-
-        /// <summary>
-        /// Gets or Sets StakeLimit
-        /// </summary>
-        [DataMember(Name = "stakeLimit", IsRequired = true, EmitDefaultValue = true)]
-        public float StakeLimit { get; set; }
-
-        /// <summary>
         /// Returns the string presentation of the object
         /// </summary>
         /// <returns>String presentation of the object</returns>
@@ -108,8 +92,6 @@ namespace Org.OpenAPITools.Model
             sb.Append("  CreatedAt: ").Append(CreatedAt).Append("\n");
             sb.Append("  UpdatedAt: ").Append(UpdatedAt).Append("\n");
             sb.Append("  Name: ").Append(Name).Append("\n");
-            sb.Append("  Odd: ").Append(Odd).Append("\n");
-            sb.Append("  StakeLimit: ").Append(StakeLimit).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }

@@ -46,6 +46,12 @@ public class Tennis : IScoreRuleset
 		// For now, assume the match has ended if 5 sets have been played.
 		var setScore = _matchStateDto.SetScore;
 		var splitSetScore = setScore.Split(",");
+		
+		// No tiebreakers
+		if (splitSetScore.Count() >= _maxSetsPerMatch && splitSetScore[splitSetScore.Count() - 1].Contains(_setWinningScore.ToString()))
+		{
+			return true;
+		}
 
 		// TODO: for now assume 2 players per team; 
 		var roundsWonOnPlayerIndex = new int[2];
@@ -53,11 +59,6 @@ public class Tennis : IScoreRuleset
 		{
 			if (set.Contains(_setWinningScore.ToString()))
 			{
-				// No tiebreakers
-				if (splitSetScore.Count() >= 5)
-				{
-					return true;
-				}
 				// the set was completed, check the position of the "7" to decide who the winner is.
 				roundsWonOnPlayerIndex[set.IndexOf(_setWinningScore.ToString()) == 0 ? 0 : 1]++;
 			}
@@ -126,11 +127,15 @@ public class Tennis : IScoreRuleset
 		splitSetScore[splitSetScore.Length - 1] = updatedLastSplitSetScore;
 
 		_matchStateDto.SetScore = string.Join(",", splitSetScore);
-		if (scoreIntArray[winnerIndex] == _setWinningScore && splitSetScore.Length < _maxSetsPerMatch && !HasMatchEnded())
+		if (scoreIntArray[winnerIndex] == _setWinningScore && splitSetScore.Length < _maxSetsPerMatch)
 		{
 
 			// The set has been won, start a new set.
-			_matchStateDto.SetScore = _matchStateDto.SetScore + ",0-0";
+			_matchStateDto.SetScore = _matchStateDto.SetScore;
+			if (!HasMatchEnded())
+			{
+				_matchStateDto.SetScore += ",0-0";
+			}
 		}
 	}
 }
