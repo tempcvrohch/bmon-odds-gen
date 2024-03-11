@@ -150,6 +150,7 @@ public class MatchGenerator : IMatchGenerator
 		}
 		catch (Exception e)
 		{
+			_logger.LogError(e.Message);
 			_creationStats.matchesExcepted++;
 			return;
 		}
@@ -194,6 +195,7 @@ public class MatchGenerator : IMatchGenerator
 			}
 			catch (Exception e)
 			{
+				_logger.LogError(e.Message);
 				_creationStats.matchUpdatesExcepted++;
 			}
 		}
@@ -201,11 +203,24 @@ public class MatchGenerator : IMatchGenerator
 
 	private void ResetPlayerDictionaries(List<long> playerIds)
 	{
+		// TODO: figure out why the compiler is complaining about a null ref
+		if (_players is null)
+		{
+			return;
+		}
+
 		var p1 = _inPlayPlayers.Find(playerDto => playerDto.Id == playerIds[0]);
 		var p2 = _inPlayPlayers.Find(playerDto => playerDto.Id == playerIds[1]);
-		_players.Add(p1);
-		_players.Add(p2);
-		_inPlayPlayers.Remove(p1);
-		_inPlayPlayers.Remove(p2);
+		if (p1 is not null)
+		{
+			_players.Add(p1);
+			_inPlayPlayers.Remove(p1);
+		}
+
+		if (p2 is not null)
+		{
+			_players.Add(p2);
+			_inPlayPlayers.Remove(p2);
+		}
 	}
 }

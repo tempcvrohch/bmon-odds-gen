@@ -17,12 +17,9 @@ public class MatchGeneratorTest
 	ILogger<MatchGenerator> _logger;
 	IBmonResourceStore _bmonResourceStore;
 	IOptions<EnviromentConfiguration> _env;
-	IBmonMatchApi? _bmonMatchApi;
-	string _uuid;
 
 	public MatchGeneratorTest()
 	{
-		_uuid = "be02bfd7-e13d-488f-b8d2-8b07e279c416";
 		var logger = new Mock<ILogger<MatchGenerator>>();
 		_logger = logger.Object;
 
