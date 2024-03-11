@@ -16,12 +16,9 @@ services:
       - "oddsgen-workspace-main-bin:/workspace/src/Org.BmonOddsGen/bin/"
       - "oddsgen-workspace-openapi-bin:/workspace/src/Org.OpenAPITools/bin/"
       - "oddsgen-workspace-test-bin:/workspace/src/Org.BmonOddsGen.Test/bin/"
-      - target: /workspace/src/Org.BmonOddsGen/obj/
-        type: tmpfs
-      - target: /workspace/src/Org.OpenAPITools/obj/
-        type: tmpfs
-      - target: /workspace/src/Org.BmonOddsGen.Test/obj/
-        type: tmpfs
+      - "oddsgen-workspace-main-obj:/workspace/src/Org.BmonOddsGen/obj/"
+      - "oddsgen-workspace-openapi-obj:/workspace/src/Org.OpenAPITools/obj/"
+      - "oddsgen-workspace-test-obj:/workspace/src/Org.BmonOddsGen.Test/obj/"
 
     # Overrides default command so things don't shut down after the process ends.
     command: /bin/sh -c "while sleep 1000; do :; done"
@@ -36,6 +33,9 @@ volumes:
   "oddsgen-workspace-main-bin":
   "oddsgen-workspace-openapi-bin":
   "oddsgen-workspace-test-bin":
+  "oddsgen-workspace-main-obj":
+  "oddsgen-workspace-openapi-obj":
+  "oddsgen-workspace-test-obj":
 
 networks:
   main:
