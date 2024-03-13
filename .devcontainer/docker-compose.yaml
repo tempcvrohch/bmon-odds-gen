@@ -19,6 +19,7 @@ services:
       - "oddsgen-workspace-main-obj:/workspace/src/Org.BmonOddsGen/obj/"
       - "oddsgen-workspace-openapi-obj:/workspace/src/Org.OpenAPITools/obj/"
       - "oddsgen-workspace-test-obj:/workspace/src/Org.BmonOddsGen.Test/obj/"
+      - "tmpfs-1g-img-repo:/tmp/tmpfs-1g-img-repo"
 
     # Overrides default command so things don't shut down after the process ends.
     command: /bin/sh -c "while sleep 1000; do :; done"
@@ -36,6 +37,8 @@ volumes:
   "oddsgen-workspace-main-obj":
   "oddsgen-workspace-openapi-obj":
   "oddsgen-workspace-test-obj":
+  "tmpfs-1g-img-repo":
+    external: true
 
 networks:
   main:
