@@ -6,6 +6,7 @@ project.lock.json
 nupkg/
 .env
 /tmp
+.mono
 
 # Visual Studio Code
 .vscode
