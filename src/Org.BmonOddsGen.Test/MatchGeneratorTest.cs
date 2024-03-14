@@ -27,7 +27,7 @@ public class MatchGeneratorTest
 		env.Setup(e => e.Value).Returns(new EnviromentConfiguration()
 		{
 			BMON_BACKEND_URL = "http://localhost:1212",
-			ODDSGEN_MAX_LIVE_GAMES = 20
+			GEN_MAX_LIVE_GAMES = 20
 		});
 		_env = env.Object;
 

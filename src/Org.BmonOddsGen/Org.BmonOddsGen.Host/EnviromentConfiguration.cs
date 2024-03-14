@@ -8,8 +8,8 @@ public class EnviromentConfiguration
 
 	public string? BMON_BACKEND_URL { get; set; }
 	public int? GENERATE_INTERVAL_TICK_MS { get; set; }
-	public int? ODDSGEN_MAX_LIVE_GAMES { get; set; }
-	public int? ODDSGEN_TENNIS_MAX_SETS_PER_MATCH{ get; set; }
-	public int? ODDSGEN_TENNIS_SET_DIFF_FOR_WIN{ get; set; }
-	public int? ODDSGEN_TENNIS_WINNING_SCORE{ get; set; }
+	public int? GEN_MAX_LIVE_GAMES { get; set; }
+	public int? GEN_TENNIS_MAX_SETS_PER_MATCH{ get; set; }
+	public int? GEN_TENNIS_SET_DIFF_FOR_WIN{ get; set; }
+	public int? GEN_TENNIS_WINNING_SCORE{ get; set; }
 }

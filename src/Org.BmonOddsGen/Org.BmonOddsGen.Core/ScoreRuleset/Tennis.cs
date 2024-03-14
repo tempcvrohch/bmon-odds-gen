@@ -20,9 +20,9 @@ public class Tennis : IScoreRuleset
 	public Tennis(MatchStateDto matchStateDto, IOptions<EnviromentConfiguration> env)
 	{
 		_matchStateDto = matchStateDto;
-		_setWinningScore = env.Value.ODDSGEN_TENNIS_WINNING_SCORE ?? 7;
-		_maxSetsPerMatch = env.Value.ODDSGEN_TENNIS_MAX_SETS_PER_MATCH ?? 5;
-		_setDiffForWin = env.Value.ODDSGEN_TENNIS_SET_DIFF_FOR_WIN ?? 3;
+		_setWinningScore = env.Value.GEN_TENNIS_WINNING_SCORE ?? 7;
+		_maxSetsPerMatch = env.Value.GEN_TENNIS_MAX_SETS_PER_MATCH ?? 5;
+		_setDiffForWin = env.Value.GEN_TENNIS_SET_DIFF_FOR_WIN ?? 3;
 	}
 
 	public MatchStateDto IncrementScore(int winnerIndex)

@@ -52,7 +52,7 @@ public class MatchGenerator : IMatchGenerator
 		_logger = logger;
 		_liveMatches = new Dictionary<string, MatchDto>();
 		_bmonResourceStore = bmonResourceStore;
-		_maxLiveGames = env.Value.ODDSGEN_MAX_LIVE_GAMES ?? 10;
+		_maxLiveGames = env.Value.GEN_MAX_LIVE_GAMES ?? 10;
 		_bmonMatchApi = bmonMatchApi;
 		_matchIdToPlayerIdsMap = new Dictionary<long, List<long>>();
 		_players = new List<PlayerDto>();
