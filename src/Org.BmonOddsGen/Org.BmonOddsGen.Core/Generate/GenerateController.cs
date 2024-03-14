@@ -6,7 +6,7 @@ using Org.OpenAPITools.Api;
 
 namespace Org.BmonOddsGen.Core.Generate;
 
-[Route("api/[controller]")]
+[Route("/[controller]")]
 [ApiController]
 public class GenerateController : ControllerBase
 {

@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace Org.BmonOddsGen.Core.Health;
 
 // TODO: this doesn't really represent the health of the server, instead check if the match generator is actually running and incrementing ticks
-[Route("api/[controller]")]
+[Route("/[controller]")]
 [ApiController]
 public class HealthController : ControllerBase
 {

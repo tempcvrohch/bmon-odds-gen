@@ -49,7 +49,6 @@ try
 
 	var webApplication = builder.Build();
 
-	webApplication.MapControllers();
 	webApplication.UseHttpsRedirection();
 	if (webApplication.Environment.IsDevelopment())
 	{
@@ -61,6 +60,10 @@ try
 	}
 
 	webApplication.UseAuthorization();
+	// TODO: figure out how to get this from EnviromentConfiguration instead.
+	webApplication.UsePathBase(new PathString(Environment.GetEnvironmentVariable("GEN_API_PREFIX") ?? "/api"));
+	webApplication.UseRouting();
+	webApplication.MapControllers();
 	webApplication.Run();
 }
 catch (Exception e)
