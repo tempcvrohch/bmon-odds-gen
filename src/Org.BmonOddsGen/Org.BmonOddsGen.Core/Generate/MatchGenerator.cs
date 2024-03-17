@@ -145,7 +145,7 @@ public class MatchGenerator : IMatchGenerator
 		try
 		{
 			// TODO: xrsf tokens should be optional for non-web
-			insertedMatch = _bmonMatchApi.CreateMatch("x-x-x-x-x", matchUpsert);
+			insertedMatch = _bmonMatchApi.CreateMatch(matchUpsert);
 			_creationStats.matchesCreated++;
 		}
 		catch (Exception e)
@@ -190,7 +190,7 @@ public class MatchGenerator : IMatchGenerator
 			_creationStats.matchUpdatesSent++;
 			try
 			{
-				_bmonMatchApi.UpdateMatchAndStates("x-x-x-x-x", liveMatch.Id, matchUpsert);
+				_bmonMatchApi.UpdateMatchAndStates(liveMatch.Id, matchUpsert);
 				_creationStats.matchUpdates++;
 			}
 			catch (Exception e)
