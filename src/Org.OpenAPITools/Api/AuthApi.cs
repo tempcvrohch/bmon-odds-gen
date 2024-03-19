@@ -67,14 +67,31 @@ namespace Org.OpenAPITools.Api
         /// <returns>ApiResponse of Object(void)</returns>
         ApiResponse<Object> LoginWithHttpInfo(string? username = default(string?), string? password = default(string?), int operationIndex = 0);
         /// <summary>
+        /// Logs the user out
+        /// </summary>
+        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="operationIndex">Index associated with the operation.</param>
+        /// <returns></returns>
+        void Logout(int operationIndex = 0);
+
+        /// <summary>
+        /// Logs the user out
+        /// </summary>
+        /// <remarks>
+        /// 
+        /// </remarks>
+        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="operationIndex">Index associated with the operation.</param>
+        /// <returns>ApiResponse of Object(void)</returns>
+        ApiResponse<Object> LogoutWithHttpInfo(int operationIndex = 0);
+        /// <summary>
         /// register a new user.
         /// </summary>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="X_XSRF_TOKEN"></param>
         /// <param name="userRegisterDto"></param>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <returns>UserDto</returns>
-        UserDto Register(string X_XSRF_TOKEN, UserRegisterDto userRegisterDto, int operationIndex = 0);
+        UserDto Register(UserRegisterDto userRegisterDto, int operationIndex = 0);
 
         /// <summary>
         /// register a new user.
@@ -83,11 +100,10 @@ namespace Org.OpenAPITools.Api
         /// 
         /// </remarks>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="X_XSRF_TOKEN"></param>
         /// <param name="userRegisterDto"></param>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <returns>ApiResponse of UserDto</returns>
-        ApiResponse<UserDto> RegisterWithHttpInfo(string X_XSRF_TOKEN, UserRegisterDto userRegisterDto, int operationIndex = 0);
+        ApiResponse<UserDto> RegisterWithHttpInfo(UserRegisterDto userRegisterDto, int operationIndex = 0);
         #endregion Synchronous Operations
     }
 
@@ -148,18 +164,40 @@ namespace Org.OpenAPITools.Api
         /// <returns>Task of ApiResponse</returns>
         System.Threading.Tasks.Task<ApiResponse<Object>> LoginWithHttpInfoAsync(string? username = default(string?), string? password = default(string?), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
         /// <summary>
+        /// Logs the user out
+        /// </summary>
+        /// <remarks>
+        /// 
+        /// </remarks>
+        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="operationIndex">Index associated with the operation.</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of void</returns>
+        System.Threading.Tasks.Task LogoutAsync(int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+
+        /// <summary>
+        /// Logs the user out
+        /// </summary>
+        /// <remarks>
+        /// 
+        /// </remarks>
+        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="operationIndex">Index associated with the operation.</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of ApiResponse</returns>
+        System.Threading.Tasks.Task<ApiResponse<Object>> LogoutWithHttpInfoAsync(int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        /// <summary>
         /// register a new user.
         /// </summary>
         /// <remarks>
         /// 
         /// </remarks>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="X_XSRF_TOKEN"></param>
         /// <param name="userRegisterDto"></param>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of UserDto</returns>
-        System.Threading.Tasks.Task<UserDto> RegisterAsync(string X_XSRF_TOKEN, UserRegisterDto userRegisterDto, int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        System.Threading.Tasks.Task<UserDto> RegisterAsync(UserRegisterDto userRegisterDto, int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
 
         /// <summary>
         /// register a new user.
@@ -168,12 +206,11 @@ namespace Org.OpenAPITools.Api
         /// 
         /// </remarks>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="X_XSRF_TOKEN"></param>
         /// <param name="userRegisterDto"></param>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse (UserDto)</returns>
-        System.Threading.Tasks.Task<ApiResponse<UserDto>> RegisterWithHttpInfoAsync(string X_XSRF_TOKEN, UserRegisterDto userRegisterDto, int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        System.Threading.Tasks.Task<ApiResponse<UserDto>> RegisterWithHttpInfoAsync(UserRegisterDto userRegisterDto, int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
         #endregion Asynchronous Operations
     }
 
@@ -569,16 +606,137 @@ namespace Org.OpenAPITools.Api
         }
 
         /// <summary>
+        /// Logs the user out 
+        /// </summary>
+        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="operationIndex">Index associated with the operation.</param>
+        /// <returns></returns>
+        public void Logout(int operationIndex = 0)
+        {
+            LogoutWithHttpInfo();
+        }
+
+        /// <summary>
+        /// Logs the user out 
+        /// </summary>
+        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="operationIndex">Index associated with the operation.</param>
+        /// <returns>ApiResponse of Object(void)</returns>
+        public Org.OpenAPITools.Client.ApiResponse<Object> LogoutWithHttpInfo(int operationIndex = 0)
+        {
+            Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = new Org.OpenAPITools.Client.RequestOptions();
+
+            string[] _contentTypes = new string[] {
+            };
+
+            // to determine the Accept header
+            string[] _accepts = new string[] {
+            };
+
+            var localVarContentType = Org.OpenAPITools.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
+            if (localVarContentType != null)
+            {
+                localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
+            }
+
+            var localVarAccept = Org.OpenAPITools.Client.ClientUtils.SelectHeaderAccept(_accepts);
+            if (localVarAccept != null)
+            {
+                localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
+            }
+
+
+            localVarRequestOptions.Operation = "AuthApi.Logout";
+            localVarRequestOptions.OperationIndex = operationIndex;
+
+
+            // make the HTTP request
+            var localVarResponse = this.Client.Post<Object>("/auth/logout", localVarRequestOptions, this.Configuration);
+            if (this.ExceptionFactory != null)
+            {
+                Exception _exception = this.ExceptionFactory("Logout", localVarResponse);
+                if (_exception != null)
+                {
+                    throw _exception;
+                }
+            }
+
+            return localVarResponse;
+        }
+
+        /// <summary>
+        /// Logs the user out 
+        /// </summary>
+        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="operationIndex">Index associated with the operation.</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of void</returns>
+        public async System.Threading.Tasks.Task LogoutAsync(int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        {
+            await LogoutWithHttpInfoAsync(operationIndex, cancellationToken).ConfigureAwait(false);
+        }
+
+        /// <summary>
+        /// Logs the user out 
+        /// </summary>
+        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="operationIndex">Index associated with the operation.</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of ApiResponse</returns>
+        public async System.Threading.Tasks.Task<Org.OpenAPITools.Client.ApiResponse<Object>> LogoutWithHttpInfoAsync(int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        {
+
+            Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = new Org.OpenAPITools.Client.RequestOptions();
+
+            string[] _contentTypes = new string[] {
+            };
+
+            // to determine the Accept header
+            string[] _accepts = new string[] {
+            };
+
+            var localVarContentType = Org.OpenAPITools.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
+            if (localVarContentType != null)
+            {
+                localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
+            }
+
+            var localVarAccept = Org.OpenAPITools.Client.ClientUtils.SelectHeaderAccept(_accepts);
+            if (localVarAccept != null)
+            {
+                localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
+            }
+
+
+            localVarRequestOptions.Operation = "AuthApi.Logout";
+            localVarRequestOptions.OperationIndex = operationIndex;
+
+
+            // make the HTTP request
+            var localVarResponse = await this.AsynchronousClient.PostAsync<Object>("/auth/logout", localVarRequestOptions, this.Configuration, cancellationToken).ConfigureAwait(false);
+
+            if (this.ExceptionFactory != null)
+            {
+                Exception _exception = this.ExceptionFactory("Logout", localVarResponse);
+                if (_exception != null)
+                {
+                    throw _exception;
+                }
+            }
+
+            return localVarResponse;
+        }
+
+        /// <summary>
         /// register a new user. 
         /// </summary>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="X_XSRF_TOKEN"></param>
         /// <param name="userRegisterDto"></param>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <returns>UserDto</returns>
-        public UserDto Register(string X_XSRF_TOKEN, UserRegisterDto userRegisterDto, int operationIndex = 0)
+        public UserDto Register(UserRegisterDto userRegisterDto, int operationIndex = 0)
         {
-            Org.OpenAPITools.Client.ApiResponse<UserDto> localVarResponse = RegisterWithHttpInfo(X_XSRF_TOKEN, userRegisterDto);
+            Org.OpenAPITools.Client.ApiResponse<UserDto> localVarResponse = RegisterWithHttpInfo(userRegisterDto);
             return localVarResponse.Data;
         }
 
@@ -586,18 +744,11 @@ namespace Org.OpenAPITools.Api
         /// register a new user. 
         /// </summary>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="X_XSRF_TOKEN"></param>
         /// <param name="userRegisterDto"></param>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <returns>ApiResponse of UserDto</returns>
-        public Org.OpenAPITools.Client.ApiResponse<UserDto> RegisterWithHttpInfo(string X_XSRF_TOKEN, UserRegisterDto userRegisterDto, int operationIndex = 0)
+        public Org.OpenAPITools.Client.ApiResponse<UserDto> RegisterWithHttpInfo(UserRegisterDto userRegisterDto, int operationIndex = 0)
         {
-            // verify the required parameter 'X_XSRF_TOKEN' is set
-            if (X_XSRF_TOKEN == null)
-            {
-                throw new Org.OpenAPITools.Client.ApiException(400, "Missing required parameter 'X_XSRF_TOKEN' when calling AuthApi->Register");
-            }
-
             // verify the required parameter 'userRegisterDto' is set
             if (userRegisterDto == null)
             {
@@ -627,7 +778,6 @@ namespace Org.OpenAPITools.Api
                 localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
             }
 
-            localVarRequestOptions.HeaderParameters.Add("X-XSRF-TOKEN", Org.OpenAPITools.Client.ClientUtils.ParameterToString(X_XSRF_TOKEN)); // header parameter
             localVarRequestOptions.Data = userRegisterDto;
 
             localVarRequestOptions.Operation = "AuthApi.Register";
@@ -652,14 +802,13 @@ namespace Org.OpenAPITools.Api
         /// register a new user. 
         /// </summary>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="X_XSRF_TOKEN"></param>
         /// <param name="userRegisterDto"></param>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of UserDto</returns>
-        public async System.Threading.Tasks.Task<UserDto> RegisterAsync(string X_XSRF_TOKEN, UserRegisterDto userRegisterDto, int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public async System.Threading.Tasks.Task<UserDto> RegisterAsync(UserRegisterDto userRegisterDto, int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
-            Org.OpenAPITools.Client.ApiResponse<UserDto> localVarResponse = await RegisterWithHttpInfoAsync(X_XSRF_TOKEN, userRegisterDto, operationIndex, cancellationToken).ConfigureAwait(false);
+            Org.OpenAPITools.Client.ApiResponse<UserDto> localVarResponse = await RegisterWithHttpInfoAsync(userRegisterDto, operationIndex, cancellationToken).ConfigureAwait(false);
             return localVarResponse.Data;
         }
 
@@ -667,19 +816,12 @@ namespace Org.OpenAPITools.Api
         /// register a new user. 
         /// </summary>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="X_XSRF_TOKEN"></param>
         /// <param name="userRegisterDto"></param>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse (UserDto)</returns>
-        public async System.Threading.Tasks.Task<Org.OpenAPITools.Client.ApiResponse<UserDto>> RegisterWithHttpInfoAsync(string X_XSRF_TOKEN, UserRegisterDto userRegisterDto, int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public async System.Threading.Tasks.Task<Org.OpenAPITools.Client.ApiResponse<UserDto>> RegisterWithHttpInfoAsync(UserRegisterDto userRegisterDto, int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
-            // verify the required parameter 'X_XSRF_TOKEN' is set
-            if (X_XSRF_TOKEN == null)
-            {
-                throw new Org.OpenAPITools.Client.ApiException(400, "Missing required parameter 'X_XSRF_TOKEN' when calling AuthApi->Register");
-            }
-
             // verify the required parameter 'userRegisterDto' is set
             if (userRegisterDto == null)
             {
@@ -710,7 +852,6 @@ namespace Org.OpenAPITools.Api
                 localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
             }
 
-            localVarRequestOptions.HeaderParameters.Add("X-XSRF-TOKEN", Org.OpenAPITools.Client.ClientUtils.ParameterToString(X_XSRF_TOKEN)); // header parameter
             localVarRequestOptions.Data = userRegisterDto;
 
             localVarRequestOptions.Operation = "AuthApi.Register";

@@ -12,4 +12,8 @@ public class EnviromentConfiguration
 	public int? GEN_TENNIS_MAX_SETS_PER_MATCH{ get; set; }
 	public int? GEN_TENNIS_SET_DIFF_FOR_WIN{ get; set; }
 	public int? GEN_TENNIS_WINNING_SCORE{ get; set; }
+
+	public string? KAFKA_URL { get; set; }
+	public string? KAFKA_GROUP_ID { get; set; }
+	public string? KAFKA_MATCHES_TOPIC { get; set; }
 }

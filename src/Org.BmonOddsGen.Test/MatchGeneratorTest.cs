@@ -57,17 +57,17 @@ public class MatchGeneratorTest
 	public void GenerateMatchesTick_InitialEmptyState_HasCreatedMatches(){
 		var bmonMatchApi = new Mock<IBmonMatchApi>();
 		var matchIndex = 0;
-		bmonMatchApi.Setup(b => b.CreateMatch(It.IsAny<string>(), It.IsAny<MatchUpsertDto>(), 0))
-			.Returns((string uuid, MatchUpsertDto matchUpsertDto, int noIdea) => {
+		bmonMatchApi.Setup(b => b.CreateMatch(It.IsAny<MatchUpsertDto>(), 0))
+			.Returns((MatchUpsertDto matchUpsertDto, int noIdea) => {
 				return new MatchDto(id: matchIndex++, name: matchUpsertDto.Name, league: new LeagueDto(name: "big boys"), sport: new SportDto(name: "Tennis"), matchState: new MatchStateDto(pointScore: "0-0", setScore: "0-0"));
 			});
-		bmonMatchApi.Setup(b => b.UpdateMatchAndStates(It.IsAny<string>(), It.IsAny<int>(), It.IsAny<MatchUpsertDto>(), It.IsAny<int>()));
+		bmonMatchApi.Setup(b => b.UpdateMatchAndStates(It.IsAny<int>(), It.IsAny<MatchUpsertDto>(), It.IsAny<int>()));
 
 		var matchGenerator = new MatchGenerator(_logger, _bmonResourceStore, _env, bmonMatchApi.Object);
 		matchGenerator.GenerateMatchesTick();
 
-		bmonMatchApi.Verify(b => b.CreateMatch(It.IsAny<string>(), It.IsAny<MatchUpsertDto>(), 0), Times.Exactly(3));
-		bmonMatchApi.Verify(b => b.UpdateMatchAndStates(It.IsAny<string>(), It.IsAny<long>(), It.IsAny<MatchUpsertDto>(), It.IsAny<int>()), Times.Exactly(3));
+		bmonMatchApi.Verify(b => b.CreateMatch(It.IsAny<MatchUpsertDto>(), 0), Times.Exactly(3));
+		bmonMatchApi.Verify(b => b.UpdateMatchAndStates(It.IsAny<long>(), It.IsAny<MatchUpsertDto>(), It.IsAny<int>()), Times.Exactly(3));
 		
 		Assert.Equal(3, matchGenerator._liveMatches.Count);
 	}

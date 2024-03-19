@@ -6,6 +6,7 @@ using Org.BmonOddsGen.Error;
 using Org.BmonOddsGen.Core.BmonResources;
 using Org.BmonOddsGen.Core.Generate;
 using System.Diagnostics;
+using Confluent.Kafka;
 // using Org.OpenAPITools.Api;
 
 if (args.Contains("--wait-for-debugger"))
@@ -28,6 +29,10 @@ try
 	builder.Configuration.AddEnvironmentVariables();
 	builder.Services.Configure<EnviromentConfiguration>(builder.Configuration);
 	builder.Services.Configure<OpenApiConfiguration>(builder.Configuration);
+	builder.Services.Configure<ConsumerConfig>(config => {
+		config.BootstrapServers = Environment.GetEnvironmentVariable("KAFKA_URL") ?? throw new Exception("Required .env variable KAFKA_URL is missing.");
+		config.GroupId =  Environment.GetEnvironmentVariable("KAFKA_GROUP_ID") ?? throw new Exception("Required .env variable KAFKA_GROUP_ID is missing.");
+	});
 
 	builder.Services.AddHttpClient<IBmonMatchApi, BmonMatchApi>((provider, client) =>
 	{

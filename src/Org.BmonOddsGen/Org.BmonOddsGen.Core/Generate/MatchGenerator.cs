@@ -144,7 +144,6 @@ public class MatchGenerator : IMatchGenerator
 		_creationStats.matchesSent++;
 		try
 		{
-			// TODO: xrsf tokens should be optional for non-web
 			insertedMatch = _bmonMatchApi.CreateMatch(matchUpsert);
 			_creationStats.matchesCreated++;
 		}

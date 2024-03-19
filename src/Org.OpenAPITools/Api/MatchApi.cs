@@ -30,11 +30,10 @@ namespace Org.OpenAPITools.Api
         /// Create a new match
         /// </summary>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="X_XSRF_TOKEN"></param>
         /// <param name="matchUpsertDto"></param>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <returns>MatchDto</returns>
-        MatchDto CreateMatch(string X_XSRF_TOKEN, MatchUpsertDto matchUpsertDto, int operationIndex = 0);
+        MatchDto CreateMatch(MatchUpsertDto matchUpsertDto, int operationIndex = 0);
 
         /// <summary>
         /// Create a new match
@@ -43,11 +42,10 @@ namespace Org.OpenAPITools.Api
         /// 
         /// </remarks>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="X_XSRF_TOKEN"></param>
         /// <param name="matchUpsertDto"></param>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <returns>ApiResponse of MatchDto</returns>
-        ApiResponse<MatchDto> CreateMatchWithHttpInfo(string X_XSRF_TOKEN, MatchUpsertDto matchUpsertDto, int operationIndex = 0);
+        ApiResponse<MatchDto> CreateMatchWithHttpInfo(MatchUpsertDto matchUpsertDto, int operationIndex = 0);
         /// <summary>
         /// Get match on id.
         /// </summary>
@@ -72,12 +70,11 @@ namespace Org.OpenAPITools.Api
         /// Update a live match with a new matchState
         /// </summary>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="X_XSRF_TOKEN"></param>
         /// <param name="id">Id of match to update.</param>
         /// <param name="matchUpsertDto"></param>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <returns></returns>
-        void UpdateMatchAndStates(string X_XSRF_TOKEN, long id, MatchUpsertDto matchUpsertDto, int operationIndex = 0);
+        void UpdateMatchAndStates(long id, MatchUpsertDto matchUpsertDto, int operationIndex = 0);
 
         /// <summary>
         /// Update a live match with a new matchState
@@ -86,12 +83,11 @@ namespace Org.OpenAPITools.Api
         /// 
         /// </remarks>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="X_XSRF_TOKEN"></param>
         /// <param name="id">Id of match to update.</param>
         /// <param name="matchUpsertDto"></param>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <returns>ApiResponse of Object(void)</returns>
-        ApiResponse<Object> UpdateMatchAndStatesWithHttpInfo(string X_XSRF_TOKEN, long id, MatchUpsertDto matchUpsertDto, int operationIndex = 0);
+        ApiResponse<Object> UpdateMatchAndStatesWithHttpInfo(long id, MatchUpsertDto matchUpsertDto, int operationIndex = 0);
         #endregion Synchronous Operations
     }
 
@@ -108,12 +104,11 @@ namespace Org.OpenAPITools.Api
         /// 
         /// </remarks>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="X_XSRF_TOKEN"></param>
         /// <param name="matchUpsertDto"></param>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of MatchDto</returns>
-        System.Threading.Tasks.Task<MatchDto> CreateMatchAsync(string X_XSRF_TOKEN, MatchUpsertDto matchUpsertDto, int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        System.Threading.Tasks.Task<MatchDto> CreateMatchAsync(MatchUpsertDto matchUpsertDto, int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
 
         /// <summary>
         /// Create a new match
@@ -122,12 +117,11 @@ namespace Org.OpenAPITools.Api
         /// 
         /// </remarks>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="X_XSRF_TOKEN"></param>
         /// <param name="matchUpsertDto"></param>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse (MatchDto)</returns>
-        System.Threading.Tasks.Task<ApiResponse<MatchDto>> CreateMatchWithHttpInfoAsync(string X_XSRF_TOKEN, MatchUpsertDto matchUpsertDto, int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        System.Threading.Tasks.Task<ApiResponse<MatchDto>> CreateMatchWithHttpInfoAsync(MatchUpsertDto matchUpsertDto, int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
         /// <summary>
         /// Get match on id.
         /// </summary>
@@ -160,13 +154,12 @@ namespace Org.OpenAPITools.Api
         /// 
         /// </remarks>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="X_XSRF_TOKEN"></param>
         /// <param name="id">Id of match to update.</param>
         /// <param name="matchUpsertDto"></param>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of void</returns>
-        System.Threading.Tasks.Task UpdateMatchAndStatesAsync(string X_XSRF_TOKEN, long id, MatchUpsertDto matchUpsertDto, int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        System.Threading.Tasks.Task UpdateMatchAndStatesAsync(long id, MatchUpsertDto matchUpsertDto, int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
 
         /// <summary>
         /// Update a live match with a new matchState
@@ -175,13 +168,12 @@ namespace Org.OpenAPITools.Api
         /// 
         /// </remarks>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="X_XSRF_TOKEN"></param>
         /// <param name="id">Id of match to update.</param>
         /// <param name="matchUpsertDto"></param>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse</returns>
-        System.Threading.Tasks.Task<ApiResponse<Object>> UpdateMatchAndStatesWithHttpInfoAsync(string X_XSRF_TOKEN, long id, MatchUpsertDto matchUpsertDto, int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        System.Threading.Tasks.Task<ApiResponse<Object>> UpdateMatchAndStatesWithHttpInfoAsync(long id, MatchUpsertDto matchUpsertDto, int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
         #endregion Asynchronous Operations
     }
 
@@ -306,13 +298,12 @@ namespace Org.OpenAPITools.Api
         /// Create a new match 
         /// </summary>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="X_XSRF_TOKEN"></param>
         /// <param name="matchUpsertDto"></param>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <returns>MatchDto</returns>
-        public MatchDto CreateMatch(string X_XSRF_TOKEN, MatchUpsertDto matchUpsertDto, int operationIndex = 0)
+        public MatchDto CreateMatch(MatchUpsertDto matchUpsertDto, int operationIndex = 0)
         {
-            Org.OpenAPITools.Client.ApiResponse<MatchDto> localVarResponse = CreateMatchWithHttpInfo(X_XSRF_TOKEN, matchUpsertDto);
+            Org.OpenAPITools.Client.ApiResponse<MatchDto> localVarResponse = CreateMatchWithHttpInfo(matchUpsertDto);
             return localVarResponse.Data;
         }
 
@@ -320,18 +311,11 @@ namespace Org.OpenAPITools.Api
         /// Create a new match 
         /// </summary>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="X_XSRF_TOKEN"></param>
         /// <param name="matchUpsertDto"></param>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <returns>ApiResponse of MatchDto</returns>
-        public Org.OpenAPITools.Client.ApiResponse<MatchDto> CreateMatchWithHttpInfo(string X_XSRF_TOKEN, MatchUpsertDto matchUpsertDto, int operationIndex = 0)
+        public Org.OpenAPITools.Client.ApiResponse<MatchDto> CreateMatchWithHttpInfo(MatchUpsertDto matchUpsertDto, int operationIndex = 0)
         {
-            // verify the required parameter 'X_XSRF_TOKEN' is set
-            if (X_XSRF_TOKEN == null)
-            {
-                throw new Org.OpenAPITools.Client.ApiException(400, "Missing required parameter 'X_XSRF_TOKEN' when calling MatchApi->CreateMatch");
-            }
-
             // verify the required parameter 'matchUpsertDto' is set
             if (matchUpsertDto == null)
             {
@@ -361,7 +345,6 @@ namespace Org.OpenAPITools.Api
                 localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
             }
 
-            localVarRequestOptions.HeaderParameters.Add("X-XSRF-TOKEN", Org.OpenAPITools.Client.ClientUtils.ParameterToString(X_XSRF_TOKEN)); // header parameter
             localVarRequestOptions.Data = matchUpsertDto;
 
             localVarRequestOptions.Operation = "MatchApi.CreateMatch";
@@ -386,14 +369,13 @@ namespace Org.OpenAPITools.Api
         /// Create a new match 
         /// </summary>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="X_XSRF_TOKEN"></param>
         /// <param name="matchUpsertDto"></param>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of MatchDto</returns>
-        public async System.Threading.Tasks.Task<MatchDto> CreateMatchAsync(string X_XSRF_TOKEN, MatchUpsertDto matchUpsertDto, int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public async System.Threading.Tasks.Task<MatchDto> CreateMatchAsync(MatchUpsertDto matchUpsertDto, int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
-            Org.OpenAPITools.Client.ApiResponse<MatchDto> localVarResponse = await CreateMatchWithHttpInfoAsync(X_XSRF_TOKEN, matchUpsertDto, operationIndex, cancellationToken).ConfigureAwait(false);
+            Org.OpenAPITools.Client.ApiResponse<MatchDto> localVarResponse = await CreateMatchWithHttpInfoAsync(matchUpsertDto, operationIndex, cancellationToken).ConfigureAwait(false);
             return localVarResponse.Data;
         }
 
@@ -401,19 +383,12 @@ namespace Org.OpenAPITools.Api
         /// Create a new match 
         /// </summary>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="X_XSRF_TOKEN"></param>
         /// <param name="matchUpsertDto"></param>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse (MatchDto)</returns>
-        public async System.Threading.Tasks.Task<Org.OpenAPITools.Client.ApiResponse<MatchDto>> CreateMatchWithHttpInfoAsync(string X_XSRF_TOKEN, MatchUpsertDto matchUpsertDto, int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public async System.Threading.Tasks.Task<Org.OpenAPITools.Client.ApiResponse<MatchDto>> CreateMatchWithHttpInfoAsync(MatchUpsertDto matchUpsertDto, int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
-            // verify the required parameter 'X_XSRF_TOKEN' is set
-            if (X_XSRF_TOKEN == null)
-            {
-                throw new Org.OpenAPITools.Client.ApiException(400, "Missing required parameter 'X_XSRF_TOKEN' when calling MatchApi->CreateMatch");
-            }
-
             // verify the required parameter 'matchUpsertDto' is set
             if (matchUpsertDto == null)
             {
@@ -444,7 +419,6 @@ namespace Org.OpenAPITools.Api
                 localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
             }
 
-            localVarRequestOptions.HeaderParameters.Add("X-XSRF-TOKEN", Org.OpenAPITools.Client.ClientUtils.ParameterToString(X_XSRF_TOKEN)); // header parameter
             localVarRequestOptions.Data = matchUpsertDto;
 
             localVarRequestOptions.Operation = "MatchApi.CreateMatch";
@@ -602,33 +576,25 @@ namespace Org.OpenAPITools.Api
         /// Update a live match with a new matchState 
         /// </summary>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="X_XSRF_TOKEN"></param>
         /// <param name="id">Id of match to update.</param>
         /// <param name="matchUpsertDto"></param>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <returns></returns>
-        public void UpdateMatchAndStates(string X_XSRF_TOKEN, long id, MatchUpsertDto matchUpsertDto, int operationIndex = 0)
+        public void UpdateMatchAndStates(long id, MatchUpsertDto matchUpsertDto, int operationIndex = 0)
         {
-            UpdateMatchAndStatesWithHttpInfo(X_XSRF_TOKEN, id, matchUpsertDto);
+            UpdateMatchAndStatesWithHttpInfo(id, matchUpsertDto);
         }
 
         /// <summary>
         /// Update a live match with a new matchState 
         /// </summary>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="X_XSRF_TOKEN"></param>
         /// <param name="id">Id of match to update.</param>
         /// <param name="matchUpsertDto"></param>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <returns>ApiResponse of Object(void)</returns>
-        public Org.OpenAPITools.Client.ApiResponse<Object> UpdateMatchAndStatesWithHttpInfo(string X_XSRF_TOKEN, long id, MatchUpsertDto matchUpsertDto, int operationIndex = 0)
+        public Org.OpenAPITools.Client.ApiResponse<Object> UpdateMatchAndStatesWithHttpInfo(long id, MatchUpsertDto matchUpsertDto, int operationIndex = 0)
         {
-            // verify the required parameter 'X_XSRF_TOKEN' is set
-            if (X_XSRF_TOKEN == null)
-            {
-                throw new Org.OpenAPITools.Client.ApiException(400, "Missing required parameter 'X_XSRF_TOKEN' when calling MatchApi->UpdateMatchAndStates");
-            }
-
             // verify the required parameter 'matchUpsertDto' is set
             if (matchUpsertDto == null)
             {
@@ -658,7 +624,6 @@ namespace Org.OpenAPITools.Api
             }
 
             localVarRequestOptions.PathParameters.Add("id", Org.OpenAPITools.Client.ClientUtils.ParameterToString(id)); // path parameter
-            localVarRequestOptions.HeaderParameters.Add("X-XSRF-TOKEN", Org.OpenAPITools.Client.ClientUtils.ParameterToString(X_XSRF_TOKEN)); // header parameter
             localVarRequestOptions.Data = matchUpsertDto;
 
             localVarRequestOptions.Operation = "MatchApi.UpdateMatchAndStates";
@@ -683,35 +648,27 @@ namespace Org.OpenAPITools.Api
         /// Update a live match with a new matchState 
         /// </summary>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="X_XSRF_TOKEN"></param>
         /// <param name="id">Id of match to update.</param>
         /// <param name="matchUpsertDto"></param>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of void</returns>
-        public async System.Threading.Tasks.Task UpdateMatchAndStatesAsync(string X_XSRF_TOKEN, long id, MatchUpsertDto matchUpsertDto, int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public async System.Threading.Tasks.Task UpdateMatchAndStatesAsync(long id, MatchUpsertDto matchUpsertDto, int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
-            await UpdateMatchAndStatesWithHttpInfoAsync(X_XSRF_TOKEN, id, matchUpsertDto, operationIndex, cancellationToken).ConfigureAwait(false);
+            await UpdateMatchAndStatesWithHttpInfoAsync(id, matchUpsertDto, operationIndex, cancellationToken).ConfigureAwait(false);
         }
 
         /// <summary>
         /// Update a live match with a new matchState 
         /// </summary>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="X_XSRF_TOKEN"></param>
         /// <param name="id">Id of match to update.</param>
         /// <param name="matchUpsertDto"></param>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse</returns>
-        public async System.Threading.Tasks.Task<Org.OpenAPITools.Client.ApiResponse<Object>> UpdateMatchAndStatesWithHttpInfoAsync(string X_XSRF_TOKEN, long id, MatchUpsertDto matchUpsertDto, int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public async System.Threading.Tasks.Task<Org.OpenAPITools.Client.ApiResponse<Object>> UpdateMatchAndStatesWithHttpInfoAsync(long id, MatchUpsertDto matchUpsertDto, int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
-            // verify the required parameter 'X_XSRF_TOKEN' is set
-            if (X_XSRF_TOKEN == null)
-            {
-                throw new Org.OpenAPITools.Client.ApiException(400, "Missing required parameter 'X_XSRF_TOKEN' when calling MatchApi->UpdateMatchAndStates");
-            }
-
             // verify the required parameter 'matchUpsertDto' is set
             if (matchUpsertDto == null)
             {
@@ -742,7 +699,6 @@ namespace Org.OpenAPITools.Api
             }
 
             localVarRequestOptions.PathParameters.Add("id", Org.OpenAPITools.Client.ClientUtils.ParameterToString(id)); // path parameter
-            localVarRequestOptions.HeaderParameters.Add("X-XSRF-TOKEN", Org.OpenAPITools.Client.ClientUtils.ParameterToString(X_XSRF_TOKEN)); // header parameter
             localVarRequestOptions.Data = matchUpsertDto;
 
             localVarRequestOptions.Operation = "MatchApi.UpdateMatchAndStates";

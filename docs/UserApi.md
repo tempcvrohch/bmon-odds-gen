@@ -7,6 +7,7 @@ All URIs are relative to *http://petstore.swagger.io/v2*
 | [**GetUserBetsPending**](UserApi.md#getuserbetspending) | **GET** /user/bets/pending | Get user pending bets. |
 | [**GetUserSession**](UserApi.md#getusersession) | **GET** /auth/session | Get current logged-in user. |
 | [**Login**](UserApi.md#login) | **POST** /auth/login | Logs the user in |
+| [**Logout**](UserApi.md#logout) | **POST** /auth/logout | Logs the user out |
 | [**Register**](UserApi.md#register) | **POST** /auth/register | register a new user. |
 
 <a id="getuserbetspending"></a>
@@ -262,9 +263,84 @@ No authorization required
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
+<a id="logout"></a>
+# **Logout**
+> void Logout ()
+
+Logs the user out
+
+### Example
+```csharp
+using System.Collections.Generic;
+using System.Diagnostics;
+using Org.OpenAPITools.Api;
+using Org.OpenAPITools.Client;
+using Org.OpenAPITools.Model;
+
+namespace Example
+{
+    public class LogoutExample
+    {
+        public static void Main()
+        {
+            Configuration config = new Configuration();
+            config.BasePath = "http://petstore.swagger.io/v2";
+            var apiInstance = new UserApi(config);
+
+            try
+            {
+                // Logs the user out
+                apiInstance.Logout();
+            }
+            catch (ApiException  e)
+            {
+                Debug.Print("Exception when calling UserApi.Logout: " + e.Message);
+                Debug.Print("Status Code: " + e.ErrorCode);
+                Debug.Print(e.StackTrace);
+            }
+        }
+    }
+}
+```
+
+#### Using the LogoutWithHttpInfo variant
+This returns an ApiResponse object which contains the response data, status code and headers.
+
+```csharp
+try
+{
+    // Logs the user out
+    apiInstance.LogoutWithHttpInfo();
+}
+catch (ApiException e)
+{
+    Debug.Print("Exception when calling UserApi.LogoutWithHttpInfo: " + e.Message);
+    Debug.Print("Status Code: " + e.ErrorCode);
+    Debug.Print(e.StackTrace);
+}
+```
+
+### Parameters
+This endpoint does not need any parameter.
+### Return type
+
+void (empty response body)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: Not defined
+
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
 <a id="register"></a>
 # **Register**
-> UserDto Register (string X_XSRF_TOKEN, UserRegisterDto userRegisterDto)
+> UserDto Register (UserRegisterDto userRegisterDto)
 
 register a new user.
 
@@ -285,13 +361,12 @@ namespace Example
             Configuration config = new Configuration();
             config.BasePath = "http://petstore.swagger.io/v2";
             var apiInstance = new UserApi(config);
-            var X_XSRF_TOKEN = "X_XSRF_TOKEN_example";  // string | 
             var userRegisterDto = new UserRegisterDto(); // UserRegisterDto | 
 
             try
             {
                 // register a new user.
-                UserDto result = apiInstance.Register(X_XSRF_TOKEN, userRegisterDto);
+                UserDto result = apiInstance.Register(userRegisterDto);
                 Debug.WriteLine(result);
             }
             catch (ApiException  e)
@@ -312,7 +387,7 @@ This returns an ApiResponse object which contains the response data, status code
 try
 {
     // register a new user.
-    ApiResponse<UserDto> response = apiInstance.RegisterWithHttpInfo(X_XSRF_TOKEN, userRegisterDto);
+    ApiResponse<UserDto> response = apiInstance.RegisterWithHttpInfo(userRegisterDto);
     Debug.Write("Status Code: " + response.StatusCode);
     Debug.Write("Response Headers: " + response.Headers);
     Debug.Write("Response Body: " + response.Data);
@@ -329,7 +404,6 @@ catch (ApiException e)
 
 | Name | Type | Description | Notes |
 |------|------|-------------|-------|
-| **X_XSRF_TOKEN** | **string** |  |  |
 | **userRegisterDto** | [**UserRegisterDto**](UserRegisterDto.md) |  |  |
 
 ### Return type

@@ -10,7 +10,7 @@ All URIs are relative to *http://petstore.swagger.io/v2*
 
 <a id="creatematch"></a>
 # **CreateMatch**
-> MatchDto CreateMatch (string X_XSRF_TOKEN, MatchUpsertDto matchUpsertDto)
+> MatchDto CreateMatch (MatchUpsertDto matchUpsertDto)
 
 Create a new match
 
@@ -31,13 +31,12 @@ namespace Example
             Configuration config = new Configuration();
             config.BasePath = "http://petstore.swagger.io/v2";
             var apiInstance = new MatchApi(config);
-            var X_XSRF_TOKEN = "X_XSRF_TOKEN_example";  // string | 
             var matchUpsertDto = new MatchUpsertDto(); // MatchUpsertDto | 
 
             try
             {
                 // Create a new match
-                MatchDto result = apiInstance.CreateMatch(X_XSRF_TOKEN, matchUpsertDto);
+                MatchDto result = apiInstance.CreateMatch(matchUpsertDto);
                 Debug.WriteLine(result);
             }
             catch (ApiException  e)
@@ -58,7 +57,7 @@ This returns an ApiResponse object which contains the response data, status code
 try
 {
     // Create a new match
-    ApiResponse<MatchDto> response = apiInstance.CreateMatchWithHttpInfo(X_XSRF_TOKEN, matchUpsertDto);
+    ApiResponse<MatchDto> response = apiInstance.CreateMatchWithHttpInfo(matchUpsertDto);
     Debug.Write("Status Code: " + response.StatusCode);
     Debug.Write("Response Headers: " + response.Headers);
     Debug.Write("Response Body: " + response.Data);
@@ -75,7 +74,6 @@ catch (ApiException e)
 
 | Name | Type | Description | Notes |
 |------|------|-------------|-------|
-| **X_XSRF_TOKEN** | **string** |  |  |
 | **matchUpsertDto** | [**MatchUpsertDto**](MatchUpsertDto.md) |  |  |
 
 ### Return type
@@ -190,7 +188,7 @@ No authorization required
 
 <a id="updatematchandstates"></a>
 # **UpdateMatchAndStates**
-> void UpdateMatchAndStates (string X_XSRF_TOKEN, long id, MatchUpsertDto matchUpsertDto)
+> void UpdateMatchAndStates (long id, MatchUpsertDto matchUpsertDto)
 
 Update a live match with a new matchState
 
@@ -211,14 +209,13 @@ namespace Example
             Configuration config = new Configuration();
             config.BasePath = "http://petstore.swagger.io/v2";
             var apiInstance = new MatchApi(config);
-            var X_XSRF_TOKEN = "X_XSRF_TOKEN_example";  // string | 
             var id = 789L;  // long | Id of match to update.
             var matchUpsertDto = new MatchUpsertDto(); // MatchUpsertDto | 
 
             try
             {
                 // Update a live match with a new matchState
-                apiInstance.UpdateMatchAndStates(X_XSRF_TOKEN, id, matchUpsertDto);
+                apiInstance.UpdateMatchAndStates(id, matchUpsertDto);
             }
             catch (ApiException  e)
             {
@@ -238,7 +235,7 @@ This returns an ApiResponse object which contains the response data, status code
 try
 {
     // Update a live match with a new matchState
-    apiInstance.UpdateMatchAndStatesWithHttpInfo(X_XSRF_TOKEN, id, matchUpsertDto);
+    apiInstance.UpdateMatchAndStatesWithHttpInfo(id, matchUpsertDto);
 }
 catch (ApiException e)
 {
@@ -252,7 +249,6 @@ catch (ApiException e)
 
 | Name | Type | Description | Notes |
 |------|------|-------------|-------|
-| **X_XSRF_TOKEN** | **string** |  |  |
 | **id** | **long** | Id of match to update. |  |
 | **matchUpsertDto** | [**MatchUpsertDto**](MatchUpsertDto.md) |  |  |
 

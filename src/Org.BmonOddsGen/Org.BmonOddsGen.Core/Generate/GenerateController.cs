@@ -30,4 +30,11 @@ public class GenerateController : ControllerBase
 		_generateSignaler.Signal(SignalerState.STOP);
 		return Ok();
 	}
+
+	[HttpGet("kstart")]
+	public IActionResult KStart()
+	{
+		
+		return Ok();
+	}
 }
